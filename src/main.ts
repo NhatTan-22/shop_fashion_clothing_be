@@ -1,6 +1,7 @@
 import express from "express";
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
+import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import ConnectMongoDB from "./config/connect";
 
 dotenv.config();
 const app = express();
@@ -11,14 +12,17 @@ app.use("/public", express.static("public"));
 // body-parser
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("The sedulous hyena ate the antelope!");
-});
-
-app.listen(port, () => {
-  console.log(`Server is listening on port localhost:${port}`);
-}).on('error', (err) => {
-  console.error('Error occurred while starting the server:', err);
-});
+app
+  .listen(port, async () => {
+    const result = await ConnectMongoDB();
+    const resultConnect = {
+      'db': `${result}`,
+      'server': `Server is listening on port localhost:${port}`
+    }
+    console.log(resultConnect);
+  })
+  .on("error", (err) => {
+    console.error("Error occurred while starting the server:", err);
+  });
