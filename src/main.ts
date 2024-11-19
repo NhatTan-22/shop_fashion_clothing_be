@@ -1,7 +1,9 @@
+import "module-alias/register";
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import ConnectMongoDB from "./config/connect";
+import ConnectMongoDB from "~/config/connect";
+import CreateAdminUser from "~/utils/constants/helper";
 
 dotenv.config();
 const app = express();
@@ -17,10 +19,12 @@ app.use(bodyParser.json());
 app
   .listen(port, async () => {
     const result = await ConnectMongoDB();
+    const admin = await CreateAdminUser();
     const resultConnect = {
-      'db': `${result}`,
-      'server': `Server is listening on port localhost:${port}`
-    }
+      db: `${result}`,
+      server: `Server is listening on port localhost:${port}`,
+      tkAdmin: `${admin}`,
+    };
     console.log(resultConnect);
   })
   .on("error", (err) => {
