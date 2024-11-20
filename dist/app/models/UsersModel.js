@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const enum_1 = require("~/utils/constants/enum");
-const User = new mongoose_1.Schema({
+const UserSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: true,
@@ -46,15 +46,7 @@ const User = new mongoose_1.Schema({
         type: String,
         default: enum_1.ROLE_ENUM.USER,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
 }, { timestamps: true });
-const UserModel = mongoose_1.default.model("Users", User);
+const UserModel = mongoose_1.default.models.User || mongoose_1.default.model("User", UserSchema);
 exports.default = UserModel;
 //# sourceMappingURL=UsersModel.js.map

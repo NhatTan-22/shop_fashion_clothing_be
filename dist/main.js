@@ -16,26 +16,33 @@ require("module-alias/register");
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const connect_1 = __importDefault(require("./config/connect"));
-const helper_1 = __importDefault(require("./utils/constants/helper"));
+const cors_1 = __importDefault(require("cors"));
+const connect_1 = __importDefault(require("~/config/connect"));
+const helper_1 = __importDefault(require("~/utils/constants/helper"));
+const indexRouter_1 = __importDefault(require("./routers/indexRouter"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+const corsOptions = {
+    origin: "*",
+    optionsSuccessStatus: 200,
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use("/public", express_1.default.static("public"));
 // body-parser
 app.use(express_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
+(0, indexRouter_1.default)(app);
 app
     .listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, connect_1.default)();
     const admin = yield (0, helper_1.default)();
-    const resultConnect = {
+    console.log({
         db: `${result}`,
         server: `Server is listening on port localhost:${port}`,
         tkAdmin: `${admin}`,
-    };
-    console.log(resultConnect);
+    });
 }))
     .on("error", (err) => {
     console.error("Error occurred while starting the server:", err);

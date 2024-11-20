@@ -16,7 +16,6 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const enum_1 = require("./enum");
 const UsersModel_1 = __importDefault(require("~/app/models/UsersModel"));
-// import UserModel from "~/app/models/UsersModel";
 dotenv_1.default.config();
 const adminData = {
     name: "Admin",
@@ -27,10 +26,11 @@ const adminData = {
 function CreateAdminUser() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const existingAdmin = yield UsersModel_1.default.findOne({ role: enum_1.ROLE_ENUM.ADMIN, admin: process.env.USERNAME });
+            const existingAdmin = yield UsersModel_1.default.findOne({
+                role: enum_1.ROLE_ENUM.ADMIN,
+            });
             if (existingAdmin) {
-                console.log("Admin user already exists.");
-                return;
+                return "Admin user already exists.";
             }
             const hashedPassword = yield bcrypt_1.default.hash(adminData.password, 12);
             const newAdmin = new UsersModel_1.default(Object.assign(Object.assign({}, adminData), { password: hashedPassword }));
@@ -38,7 +38,7 @@ function CreateAdminUser() {
             return "Admin user created successfully!";
         }
         catch (error) {
-            console.error("Error creating admin user:", error);
+            return `Error creating admin user: ${error}`;
         }
     });
 }
