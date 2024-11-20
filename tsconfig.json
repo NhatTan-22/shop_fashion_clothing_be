@@ -1,16 +1,9 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "target": "es6",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "outDir": "dist"
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["*"]
     },
-<<<<<<< HEAD
-    "lib": ["es2015"]
-  }
-=======
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
@@ -23,4 +16,3 @@
   "exclude": ["node_modules"],
   "lib": ["es2015"]
 }
->>>>>>> 0f96332 (Code api auth login)
