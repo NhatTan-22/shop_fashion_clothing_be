@@ -7,5 +7,20 @@
       "sourceMap": true,
       "outDir": "dist"
     },
+<<<<<<< HEAD
     "lib": ["es2015"]
   }
+=======
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"],
+  "lib": ["es2015"]
+}
+>>>>>>> 0f96332 (Code api auth login)

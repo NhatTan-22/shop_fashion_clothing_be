@@ -1,3 +1,11 @@
 {
+<<<<<<< HEAD
     "est": "js json"
 }
+=======
+  "watch": ["src"],
+  "ext": "ts,json,js",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "ts-node ./src/main.ts"
+}
+>>>>>>> 0f96332 (Code api auth login)
