@@ -10,7 +10,7 @@ const adminData: IAdmin = {
   name: "Admin",
   email: process.env.EMAIL,
   password: process.env.PASSWORD,
-  role: 1,
+  role: ROLE_ENUM.ADMIN,
 };
 
 async function CreateAdminUser() {
