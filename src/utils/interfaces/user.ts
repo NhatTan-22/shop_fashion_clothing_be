@@ -1,13 +1,24 @@
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 
-interface IUser extends Document {
+interface IUser extends IAdmin, Document {
   name: string;
-  email: string;
-  password: string;
   photoUrl?: string;
-  role: string;
+  role: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export default IUser;
+interface IUserLogin {
+  email: string;
+  password: string;
+}
+
+interface IAdmin extends IUserLogin {
+  name: string;
+  photoUrl?: string;
+  role: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export { IUser, IUserLogin, IAdmin };
