@@ -18,7 +18,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const connect_1 = __importDefault(require("~/config/connect"));
-const helper_1 = __importDefault(require("~/utils/constants/helper"));
+const helper_1 = require("~/utils/constants/helper");
 const indexRouter_1 = __importDefault(require("./routers/indexRouter"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -37,7 +37,7 @@ app.use(body_parser_1.default.json());
 app
     .listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, connect_1.default)();
-    const admin = yield (0, helper_1.default)();
+    const admin = yield (0, helper_1.createAdminUser)();
     console.log({
         db: `${result}`,
         server: `Server is listening on port localhost:${port}`,
