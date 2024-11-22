@@ -1,4 +1,6 @@
+// Libs
 import mongoose, { Schema } from "mongoose";
+// Others
 import { ROLE_ENUM } from "~/utils/constants/enum";
 import { IUser } from "~/utils/interfaces/user";
 

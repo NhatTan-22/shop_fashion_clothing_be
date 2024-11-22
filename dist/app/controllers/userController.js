@@ -23,21 +23,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.register = exports.login = void 0;
 // Libs
 const bcrypt_1 = __importDefault(require("bcrypt"));
-//
+// Others
 const enum_1 = require("~/utils/constants/enum");
 const UsersModel_1 = __importDefault(require("../models/UsersModel"));
+const helper_1 = require("~/utils/constants/helper");
+// [POST] /register
+const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        const isMail = yield UsersModel_1.default.findOne({ email });
+        if (isMail) {
+            return res.status(400).json({
+                code: 1012,
+                message: enum_1.MESSAGE_ENUM.WARNING_LOGIN_EMAIL,
+            });
+        }
+        const hasPassword = yield bcrypt_1.default.hash(password, 12);
+        yield UsersModel_1.default.create(Object.assign(Object.assign({}, req.body), { password: hasPassword }));
+        return res.status(200).json({
+            code: 1010,
+            message: enum_1.MESSAGE_ENUM.SUCCESS_REGISTER,
+        });
+    }
+    catch (error) {
+        res.status(404).json({
+            code: 1013,
+            message: error.message,
+        });
+    }
+});
+exports.register = register;
 // [POST] /login
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { email, password } = req.body;
     try {
         const user = yield UsersModel_1.default.findOne({ email });
         if (!user) {
             return res.status(404).json({
                 code: 1011,
-                message: enum_1.MESSAGE_ENUM.ERROR_LOGIN_EMAIL,
+                message: enum_1.MESSAGE_ENUM.ERROR_LOGIN,
             });
         }
         const isMatchPassword = yield bcrypt_1.default.compare(password, user.password);
@@ -47,10 +75,20 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: enum_1.MESSAGE_ENUM.ERROR_LOGIN,
             });
         }
-        const _a = user._doc, { password: _doc } = _a, resData = __rest(_a, ["password"]);
+        const _b = user._doc, { password: _doc } = _b, resData = __rest(_b, ["password"]);
+        const payload = yield (0, helper_1.getAccessToken)({
+            _id: user._id,
+            email: user.email,
+            role: (_a = user.role) !== null && _a !== void 0 ? _a : enum_1.ROLE_ENUM.USER,
+        });
         return res.status(200).json({
             code: 1010,
-            token: resData,
+            message: enum_1.MESSAGE_ENUM.SUCCESS_LOGIN,
+            data: resData,
+            token: {
+                access: payload,
+                refresh: "",
+            },
         });
     }
     catch (error) {
