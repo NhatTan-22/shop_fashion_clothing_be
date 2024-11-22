@@ -23,7 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Libs
 const mongoose_1 = __importStar(require("mongoose"));
+// Others
 const enum_1 = require("~/utils/constants/enum");
 const UserSchema = new mongoose_1.Schema({
     name: {

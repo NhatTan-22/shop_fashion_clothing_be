@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "src/main.ts",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./dist/main.js",
-		"dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/main.ts",
+    "build": "tsc"
   },
   "_moduleAliases": {
     "~": "dist"
@@ -29,6 +30,9 @@
     "typescript": "^5.6.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.9.0",
     "ts-node": "^10.9.2"
   }

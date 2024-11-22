@@ -1,6 +1,6 @@
 {
-  "watch": ["src"],
+  "watch": ["src", "dist"],
   "ext": "ts,json,js",
-  "ignore": ["src/**/*.spec.ts"],
-  "exec": "ts-node ./src/main.ts"
+  "ignore": ["node_modules", "dist"],
+  "exec": "tsc && node dist/main.js"
 }

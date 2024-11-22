@@ -9,8 +9,9 @@
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist",
-    "rootDir": "./src"
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],

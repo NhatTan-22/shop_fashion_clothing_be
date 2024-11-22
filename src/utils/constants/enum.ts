@@ -4,6 +4,12 @@ export enum ROLE_ENUM {
 }
 
 export enum MESSAGE_ENUM {
-  ERROR_LOGIN_EMAIL = "Email/Password does not exist.",
-  ERROR_LOGIN = "Login failed! Please check Email/Password and login again.",
+  // SUCCESS
+  SUCCESS_LOGIN = "Login successfully.",
+  SUCCESS_REGISTER = "Create user successfully.",
+  // WARNING
+  WARNING_LOGIN_EMAIL = "Email already exists.",
+  // ERROR
+  ERROR_LOGIN = "Email/Password does not exist.",
+  ERROR_LOGIN_FAIL = "Login failed! Please check Email/Password and login again.",
 }

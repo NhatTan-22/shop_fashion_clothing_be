@@ -1,8 +1,12 @@
+// Libs
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+// Others
 import { ROLE_ENUM } from "./enum";
 import { IAdmin } from "../interfaces/user";
 import UsersModel from "~/app/models/UsersModel";
+import { IPayloadAccessToken } from "../interfaces/common";
 
 dotenv.config();
 
@@ -13,7 +17,8 @@ const adminData: IAdmin = {
   role: ROLE_ENUM.ADMIN,
 };
 
-async function CreateAdminUser() {
+// Function Create Admin
+export const createAdminUser = async () => {
   try {
     const existingAdmin = await UsersModel.findOne({
       role: ROLE_ENUM.ADMIN,
@@ -32,10 +37,16 @@ async function CreateAdminUser() {
 
     await newAdmin.save();
     return "Admin user created successfully!";
-
   } catch (error) {
     return `Error creating admin user: ${error}`;
   }
-}
+};
 
-export default CreateAdminUser;
+// Handle Get AccessToken
+export const getAccessToken = async (payload: IPayloadAccessToken) => {
+  const accessToken = jwt.sign(payload, process.env.SECRET_KEY as string, {
+    expiresIn: "30m",
+  });
+
+  return accessToken;
+};

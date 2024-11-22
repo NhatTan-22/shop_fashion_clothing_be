@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import ConnectMongoDB from "~/config/connect";
-import CreateAdminUser from "~/utils/constants/helper";
+import { createAdminUser } from "~/utils/constants/helper";
 import appRouter from "./routers/indexRouter";
 
 dotenv.config();
@@ -30,7 +30,7 @@ appRouter(app);
 app
   .listen(port, async () => {
     const result = await ConnectMongoDB();
-    const admin = await CreateAdminUser();
+    const admin = await createAdminUser();
     console.log({
       db: `${result}`,
       server: `Server is listening on port localhost:${port}`,
