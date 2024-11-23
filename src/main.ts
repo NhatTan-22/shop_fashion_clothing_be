@@ -33,7 +33,7 @@ app
     const admin = await createAdminUser();
     console.log({
       db: `${result}`,
-      server: `Server is listening on port localhost:${port}`,
+      server: `Server is listening on port http://localhost:${port}`,
       tkAdmin: `${admin}`,
     });
   })
