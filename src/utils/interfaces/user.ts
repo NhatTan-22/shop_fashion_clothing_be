@@ -1,7 +1,8 @@
 import { Document } from "mongoose";
 
 interface IUser extends IAdmin, Document {
-  name: string;
+  firstName?: string;
+  lastName: string;
   photoUrl?: string;
   role: number;
   createdAt?: Date;
@@ -14,7 +15,8 @@ interface IUserLogin {
 }
 
 interface IAdmin extends IUserLogin {
-  name: string;
+  firstName?: string;
+  lastName: string;
   photoUrl?: string;
   role: number;
   createdAt?: Date;

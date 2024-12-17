@@ -12,4 +12,17 @@ export enum MESSAGE_ENUM {
   // ERROR
   ERROR_LOGIN = "Email/Password does not exist.",
   ERROR_LOGIN_FAIL = "Login failed! Please check Email/Password and login again.",
+
+  ERROR_TOKEN_ACCESS_DENIED = "Access denied",
+  ERROR_TOKEN_INVALID_TOKEN = "Invalid Token",
+}
+
+export enum MESSAGE_SUPPLIER_ENUM {
+  // SUCCESS
+  SUCCESS_CREATE_SUPPLIER = "Create supplier successfully.",
+  SUCCESS_GET_SUPPLIER = "GET list supplier.",
+  // WARNING
+  WARNING_SUPPLIER_EMAIL = "Supplier already exists.",
+  // ERROR
+  // ERROR_SUPPLIER = "Email/Password does not exist.",
 }

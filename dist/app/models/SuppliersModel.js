@@ -23,40 +23,45 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Libs
 const mongoose_1 = __importStar(require("mongoose"));
-// Others
-const enum_1 = require("~/utils/constants/enum");
-const UserSchema = new mongoose_1.Schema({
-    firstName: {
-        type: String,
-        required: true,
-    },
-    lastName: {
-        type: String,
-        required: true,
-    },
-    phone: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    photoUrl: {
+const SupplierSchema = new mongoose_1.Schema({
+    supplierImage: {
         type: String,
         default: "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
     },
-    role: {
-        type: Number,
-        default: enum_1.ROLE_ENUM.USER,
+    supplierMa: {
+        type: String,
+        require: true,
     },
-}, { timestamps: true });
-const UserModel = mongoose_1.default.models.User || mongoose_1.default.model("User", UserSchema);
-exports.default = UserModel;
-//# sourceMappingURL=UsersModel.js.map
+    supplierName: {
+        type: String,
+        require: true,
+    },
+    supplierPhone: {
+        type: String,
+        require: true,
+    },
+    supplierEmail: {
+        type: String,
+        require: true,
+    },
+    address: {
+        type: String,
+        require: true,
+    },
+    supplierProduct: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Product",
+    },
+    isTaking: {
+        type: Number,
+        default: 0,
+        enum: [0, 1],
+    },
+}, {
+    timestamps: true,
+});
+const SupplierModel = mongoose_1.default.models.Supplier ||
+    mongoose_1.default.model("Suppliers", SupplierSchema);
+exports.default = SupplierModel;
+//# sourceMappingURL=SuppliersModel.js.map
