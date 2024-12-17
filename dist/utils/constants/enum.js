@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
+exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
 var ROLE_ENUM;
 (function (ROLE_ENUM) {
     ROLE_ENUM[ROLE_ENUM["ADMIN"] = 0] = "ADMIN";
@@ -16,5 +16,17 @@ var MESSAGE_ENUM;
     // ERROR
     MESSAGE_ENUM["ERROR_LOGIN"] = "Email/Password does not exist.";
     MESSAGE_ENUM["ERROR_LOGIN_FAIL"] = "Login failed! Please check Email/Password and login again.";
+    MESSAGE_ENUM["ERROR_TOKEN_ACCESS_DENIED"] = "Access denied";
+    MESSAGE_ENUM["ERROR_TOKEN_INVALID_TOKEN"] = "Invalid Token";
 })(MESSAGE_ENUM || (exports.MESSAGE_ENUM = MESSAGE_ENUM = {}));
+var MESSAGE_SUPPLIER_ENUM;
+(function (MESSAGE_SUPPLIER_ENUM) {
+    // SUCCESS
+    MESSAGE_SUPPLIER_ENUM["SUCCESS_CREATE_SUPPLIER"] = "Create supplier successfully.";
+    MESSAGE_SUPPLIER_ENUM["SUCCESS_GET_SUPPLIER"] = "GET list supplier.";
+    // WARNING
+    MESSAGE_SUPPLIER_ENUM["WARNING_SUPPLIER_EMAIL"] = "Supplier already exists.";
+    // ERROR
+    // ERROR_SUPPLIER = "Email/Password does not exist.",
+})(MESSAGE_SUPPLIER_ENUM || (exports.MESSAGE_SUPPLIER_ENUM = MESSAGE_SUPPLIER_ENUM = {}));
 //# sourceMappingURL=enum.js.map

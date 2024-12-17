@@ -6,17 +6,17 @@ import UserModel from "../models/UsersModel";
 import { getAccessToken } from "~/utils/constants/helper";
 
 // [POST] /register
-const register = async ( req: any, res: any) => {
+const register = async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
 
     const isMail = await UserModel.findOne({ email });
 
-    if(isMail) {
+    if (isMail) {
       return res.status(400).json({
         code: 1012,
         message: MESSAGE_ENUM.WARNING_LOGIN_EMAIL,
-      })
+      });
     }
 
     const hasPassword = await bcrypt.hash(password, 12);
@@ -25,15 +25,14 @@ const register = async ( req: any, res: any) => {
     return res.status(200).json({
       code: 1010,
       message: MESSAGE_ENUM.SUCCESS_REGISTER,
-    })
-
+    });
   } catch (error) {
     res.status(404).json({
       code: 1013,
       message: error.message,
-    })
+    });
   }
-}
+};
 
 // [POST] /login
 const login = async (req: any, res: any) => {
@@ -52,17 +51,17 @@ const login = async (req: any, res: any) => {
     if (!isMatchPassword) {
       return res.status(404).json({
         code: 1012,
-        message: MESSAGE_ENUM.ERROR_LOGIN,
+        message: MESSAGE_ENUM.ERROR_LOGIN_FAIL,
       });
     }
-
-    const { password: _doc, ...resData } = user._doc;
 
     const payload = await getAccessToken({
       _id: user._id,
       email: user.email,
       role: user.role ?? ROLE_ENUM.USER,
-    })
+    });
+
+    const { password: _doc, ...resData } = user._doc;
 
     return res.status(200).json({
       code: 1010,

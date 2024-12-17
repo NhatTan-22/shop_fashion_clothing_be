@@ -22,7 +22,8 @@ const enum_1 = require("./enum");
 const UsersModel_1 = __importDefault(require("~/app/models/UsersModel"));
 dotenv_1.default.config();
 const adminData = {
-    name: "Admin",
+    firstName: "Nhat",
+    lastName: "Tan",
     email: process.env.EMAIL,
     password: process.env.PASSWORD,
     role: enum_1.ROLE_ENUM.ADMIN,
@@ -49,7 +50,7 @@ exports.createAdminUser = createAdminUser;
 // Handle Get AccessToken
 const getAccessToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: "30m",
+        expiresIn: "1h",
     });
     return accessToken;
 });
