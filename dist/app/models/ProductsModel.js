@@ -23,40 +23,52 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Libs
 const mongoose_1 = __importStar(require("mongoose"));
-// Others
-const enum_1 = require("~/utils/constants/enum");
-const UserSchema = new mongoose_1.Schema({
-    firstName: {
+const ProductSchema = new mongoose_1.Schema({
+    productName: {
         type: String,
-        required: true,
+        require: true,
     },
-    lastName: {
+    productImage: {
+        type: [String],
+    },
+    supplierMa: {
         type: String,
-        required: true,
+        require: true,
     },
-    phone: {
+    description: {
         type: String,
-        required: true,
+        require: true,
     },
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    photoUrl: {
-        type: String,
-        default: "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
-    },
-    role: {
+    productPrice: {
         type: Number,
-        default: enum_1.ROLE_ENUM.USER,
+        require: true,
     },
-}, { timestamps: true });
-const UserModel = mongoose_1.default.models.User || mongoose_1.default.model("User", UserSchema);
-exports.default = UserModel;
-//# sourceMappingURL=UsersModel.js.map
+    productReviews: {
+        type: [
+            {
+                customer_id: {
+                    type: mongoose_1.Schema.Types.ObjectId,
+                    ref: "User",
+                    required: true,
+                },
+                rating: { type: Number, required: true },
+                review_text: { type: String, required: true },
+                created_at: { type: Date, required: true },
+            },
+        ],
+        required: false,
+    },
+    category: {
+        type: Number,
+        require: true,
+    },
+    stockQuantity: {
+        type: Number,
+        require: true,
+    },
+});
+const ProductModel = mongoose_1.default.models.Product ||
+    mongoose_1.default.model("Products", ProductSchema);
+exports.default = ProductModel;
+//# sourceMappingURL=ProductsModel.js.map

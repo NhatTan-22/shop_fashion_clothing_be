@@ -11,7 +11,8 @@ import { IPayloadAccessToken } from "../interfaces/common";
 dotenv.config();
 
 const adminData: IAdmin = {
-  name: "Admin",
+  firstName: "Nhat",
+  lastName: "Tan",
   email: process.env.EMAIL,
   password: process.env.PASSWORD,
   role: ROLE_ENUM.ADMIN,
@@ -45,7 +46,7 @@ export const createAdminUser = async () => {
 // Handle Get AccessToken
 export const getAccessToken = async (payload: IPayloadAccessToken) => {
   const accessToken = jwt.sign(payload, process.env.SECRET_KEY as string, {
-    expiresIn: "30m",
+    expiresIn: "1h",
   });
 
   return accessToken;
