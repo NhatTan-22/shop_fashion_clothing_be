@@ -1,1 +1,0 @@
-{"version":3,"file":"supplierRouter.js","sourceRoot":"","sources":["../../src/routers/supplierRouter.ts"],"names":[],"mappings":";;;;;AAAA,OAAO;AACP,qCAAiC;AACjC,6EAG8C;AAC9C,wEAAgD;AAEhD,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAExB,MAAM,CAAC,IAAI,CAAC,oBAAoB,EAAE,qBAAW,EAAE,gCAAW,CAAC,CAAC;AAE5D,MAAM,CAAC,GAAG,CAAC,YAAY,EAAE,iCAAY,CAAC,CAAC;AAEvC,kBAAe,MAAM,CAAC"}

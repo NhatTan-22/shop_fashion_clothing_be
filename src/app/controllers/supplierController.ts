@@ -19,10 +19,10 @@ const getSuppliers = async (req: any, res: any) => {
       code: 1010,
       message: MESSAGE_SUPPLIER_ENUM.SUCCESS_GET_SUPPLIER,
       data: {
-        supplierData,
+        data: supplierData,
         pagination: {
           lengthPage: supplierDataLength,
-          currentPage,
+          currentPage: Number(currentPage),
         },
       },
     });
