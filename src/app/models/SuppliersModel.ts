@@ -8,7 +8,7 @@ const SupplierSchema: Schema = new Schema(
       default:
         "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
     },
-    supplierMa: {
+    supplierCode: {
       type: String,
       require: true,
     },
@@ -24,7 +24,7 @@ const SupplierSchema: Schema = new Schema(
       type: String,
       require: true,
     },
-    address: {
+    supplierAddress: {
       type: String,
       require: true,
     },
@@ -33,7 +33,7 @@ const SupplierSchema: Schema = new Schema(
       ref: "Product",
     },
     isTaking: {
-      type: Number,
+      type: [Number],
       default: 0,
       enum: [0, 1],
     },

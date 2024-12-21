@@ -1,17 +1,7 @@
 import jwt from "jsonwebtoken";
 import { MESSAGE_ENUM } from "~/utils/constants/enum";
 
-const verifyToken = (
-  req: { headers: { [x: string]: any }; userID: any },
-  res: {
-    status: (arg0: number) => {
-      (): any;
-      new (): any;
-      json: { (arg0: { message: string }): any; new (): any };
-    };
-  },
-  next: () => void
-) => {
+const verifyToken = (req: any, res: any, next: () => void) => {
   if (!req.headers["authorization"]) {
     return next();
   }
@@ -29,6 +19,7 @@ const verifyToken = (
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.userID = decoded;
     next();
+    
   } catch (error) {
     return res.status(401).json({
       message: MESSAGE_ENUM.ERROR_TOKEN_INVALID_TOKEN,
@@ -36,4 +27,4 @@ const verifyToken = (
   }
 };
 
-module.exports = verifyToken;
+export default verifyToken;
