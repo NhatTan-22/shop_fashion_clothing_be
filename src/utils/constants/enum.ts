@@ -22,7 +22,17 @@ export enum MESSAGE_SUPPLIER_ENUM {
   SUCCESS_CREATE_SUPPLIER = "Create supplier successfully.",
   SUCCESS_GET_SUPPLIER = "GET list supplier.",
   // WARNING
-  WARNING_SUPPLIER_EMAIL = "Supplier already exists.",
+  WARNING_SUPPLIER_CODE = "Supplier already exists.",
   // ERROR
   // ERROR_SUPPLIER = "Email/Password does not exist.",
+}
+
+export enum MESSAGE_PRODUCT_ENUM {
+  // SUCCESS
+  SUCCESS_CREATE_PRODUCT = "Create product successfully.",
+  SUCCESS_GET_PRODUCT = "GET list product.",
+  // WARNING
+  WARNING_PRODUCT_CODE = "Product already exists.",
+  // ERROR
+  // ERROR_PRODUCT = "Email/Password does not exist.",
 }
