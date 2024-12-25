@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { addInventory, getInventories } from "~/app/controllers/inventoryController";
+import {
+  addInventory,
+  getInventories,
+} from "~/app/controllers/inventoryController";
 import verifyToken from "~/middleware/verifyToken";
 
 const router = Router();
