@@ -1,7 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { ISupplier } from "~/utils/interfaces/supplier";
 
-const SupplierSchema: Schema = new Schema(
+const SupplierSchema: Schema<ISupplier> = new Schema(
   {
     supplierImage: {
       type: String,
@@ -28,14 +28,19 @@ const SupplierSchema: Schema = new Schema(
       type: String,
       require: true,
     },
-    supplierProduct: {
-      type: mongoose.Schema.Types.ObjectId,
+    productCode: {
+      type: String,
       ref: "Product",
+    },
+    quantityImported: {
+      type: Number,
+      require: true,
+      default: 0,
     },
     isTaking: {
       type: [Number],
-      default: 0,
-      enum: [0, 1],
+      default: [0],
+      enum: [0, 1, 2],
     },
   },
   {
@@ -43,8 +48,9 @@ const SupplierSchema: Schema = new Schema(
   }
 );
 
-const SupplierModel =
-  mongoose.models.Supplier ||
-  mongoose.model<ISupplier>("Suppliers", SupplierSchema);
+const SupplierModel: Model<ISupplier> = mongoose.model<ISupplier>(
+  "Supplier",
+  SupplierSchema
+);
 
 export default SupplierModel;

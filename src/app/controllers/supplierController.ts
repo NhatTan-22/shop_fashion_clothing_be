@@ -9,7 +9,7 @@ const getSuppliers = async (req: any, res: any) => {
   try {
     const { currentPage, limitPage } = req.query;
     const skip = (currentPage - 1) * limitPage;
-    const supplierDataLength = (await SupplierModel.find({})).length;
+    const supplierLength = await SupplierModel.countDocuments();
 
     const supplierData = await SupplierModel.find({})
       .skip(skip)
@@ -21,7 +21,7 @@ const getSuppliers = async (req: any, res: any) => {
       data: {
         data: supplierData,
         pagination: {
-          lengthPage: supplierDataLength,
+          lengthPage: supplierLength,
           currentPage: Number(currentPage),
         },
       },
@@ -34,19 +34,19 @@ const getSuppliers = async (req: any, res: any) => {
   }
 };
 
-// [GET] /suppliers/new-add
+// [POST] /suppliers/new-add
 const addSupplier = async (req: any, res: any) => {
   try {
     const body: ISupplier = req.body;
 
-    const isSupplierMa = await SupplierModel.find({
-      supplierMa: body.supplierMa,
+    const isSupplierCode = await SupplierModel.find({
+      supplierCode: body.supplierCode,
     });
 
-    if (!isSupplierMa) {
+    if (!isSupplierCode) {
       return res.status(400).json({
         code: 1011,
-        message: MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_EMAIL,
+        message: MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
       });
     }
 

@@ -2,13 +2,14 @@ import { Document } from "mongoose";
 
 export interface ISupplier extends Document {
   supplierImage?: string;
-  supplierMa: string;
+  supplierCode: string;
   supplierName: string;
   supplierPhone: string;
   supplierEmail: string;
-  address: string;
-  supplierProduct: string[];
-  isTaking: number[];
+  supplierAddress: string;
+  productCode: string;
+  quantityImported: number;
+  isTaking: [number];
   createdAt?: Date;
   updatedAt?: Date;
 }

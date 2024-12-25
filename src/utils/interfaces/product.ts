@@ -1,21 +1,35 @@
 import { Document, ObjectId } from "mongoose";
 
 export interface IProduct extends Document {
-  productName: string;
-  supplierMa: string;
-  description: string;
-  productPrice: number;
+  id: string;
+  productCode?: string;
+  productName?: string;
+  productImage?: string;
+  description?: string;
+  supplierCode: string;
+  status: boolean;
+  price?: IPrice;
+  variants: IVariant[];
   category: string;
-  stockQuantity: number;
-  productImage: string[];
-  productReviews: IReview[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface IReview {
-  customer_id: ObjectId;
-  rating: number;
-  review_text: string;
-  created_at: Date;
+export interface IPrice extends Document {
+  sellingPrice?: number;
+  importPrice?: number;
+  promotionPrice?: number;
+}
+
+export interface IVariant extends Document {
+  image: [string];
+  color: string;
+  sizes: ISizeQuantity[];
+}
+
+export interface ISizeQuantity extends Document {
+  size: string;
+  storeQuantity?: number;
+  importQuantity?: number;
+  sellingQuantity?: number;
 }
