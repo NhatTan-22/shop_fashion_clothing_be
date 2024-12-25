@@ -24,51 +24,52 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const PriceSchema = new mongoose_1.Schema({
+    sellingPrice: { type: Number },
+    importPrice: { type: Number },
+    promotionPrice: { type: Number },
+});
+const SizeQuantitySchema = new mongoose_1.Schema({
+    size: { type: String },
+    storeQuantity: { type: Number },
+    importQuantity: { type: Number },
+    sellingQuantity: { type: Number },
+});
+const VariantSchema = new mongoose_1.Schema({
+    image: { type: [String] },
+    color: { type: String },
+    sizes: SizeQuantitySchema,
+});
 const ProductSchema = new mongoose_1.Schema({
+    productCode: {
+        type: String,
+        require: true,
+    },
     productName: {
         type: String,
         require: true,
     },
     productImage: {
-        type: [String],
-    },
-    supplierMa: {
         type: String,
-        require: true,
     },
     description: {
         type: String,
         require: true,
     },
-    productPrice: {
-        type: Number,
+    supplierCode: {
+        type: String,
         require: true,
     },
-    productReviews: {
-        type: [
-            {
-                customer_id: {
-                    type: mongoose_1.Schema.Types.ObjectId,
-                    ref: "User",
-                    required: true,
-                },
-                rating: { type: Number, required: true },
-                review_text: { type: String, required: true },
-                created_at: { type: Date, required: true },
-            },
-        ],
-        required: false,
-    },
+    price: PriceSchema,
+    variants: VariantSchema,
     category: {
-        type: Number,
+        type: String,
         require: true,
     },
-    stockQuantity: {
-        type: Number,
-        require: true,
+    status: {
+        type: Boolean,
     },
-});
-const ProductModel = mongoose_1.default.models.Product ||
-    mongoose_1.default.model("Products", ProductSchema);
+}, { timestamps: true });
+const ProductModel = mongoose_1.default.model("Products", ProductSchema);
 exports.default = ProductModel;
 //# sourceMappingURL=ProductsModel.js.map

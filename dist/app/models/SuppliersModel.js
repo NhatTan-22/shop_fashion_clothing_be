@@ -49,19 +49,23 @@ const SupplierSchema = new mongoose_1.Schema({
         type: String,
         require: true,
     },
-    supplierProduct: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
+    productCode: {
+        type: String,
         ref: "Product",
+    },
+    quantityImported: {
+        type: Number,
+        require: true,
+        default: 0,
     },
     isTaking: {
         type: [Number],
-        default: 0,
-        enum: [0, 1],
+        default: [0],
+        enum: [0, 1, 2],
     },
 }, {
     timestamps: true,
 });
-const SupplierModel = mongoose_1.default.models.Supplier ||
-    mongoose_1.default.model("Suppliers", SupplierSchema);
+const SupplierModel = mongoose_1.default.model("Supplier", SupplierSchema);
 exports.default = SupplierModel;
 //# sourceMappingURL=SuppliersModel.js.map

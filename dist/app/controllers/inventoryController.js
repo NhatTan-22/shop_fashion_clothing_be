@@ -12,28 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addSupplier = exports.getSuppliers = void 0;
-const SuppliersModel_1 = __importDefault(require("../models/SuppliersModel"));
+exports.addInventory = exports.getInventories = void 0;
 const enum_1 = require("~/utils/constants/enum");
-// [GET] /suppliers
-const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const ProductsModel_1 = __importDefault(require("../models/ProductsModel"));
+// [GET] /inventories
+const getInventories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { currentPage, limitPage } = req.query;
+        const { currentPage, limitPage } = req.body;
         const skip = (currentPage - 1) * limitPage;
-        const supplierLength = yield SuppliersModel_1.default.countDocuments();
-        const supplierData = yield SuppliersModel_1.default.find({})
+        const inventoryLength = yield ProductsModel_1.default.countDocuments();
+        const inventoryData = yield ProductsModel_1.default.find({})
             .skip(skip)
             .limit(limitPage);
-        return res.status(200).json({
+        res.status(200).json({
             code: 1010,
-            message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_GET_SUPPLIER,
             data: {
-                data: supplierData,
+                data: inventoryData,
                 pagination: {
-                    lengthPage: supplierLength,
+                    lengthPage: inventoryLength,
                     currentPage: Number(currentPage),
                 },
             },
+            message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_GET_PRODUCT,
         });
     }
     catch (error) {
@@ -43,24 +43,24 @@ const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
-exports.getSuppliers = getSuppliers;
-// [POST] /suppliers/new-add
-const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getInventories = getInventories;
+// [POST] /addInventories/new-add
+const addInventory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        const isSupplierCode = yield SuppliersModel_1.default.find({
-            supplierCode: body.supplierCode,
+        const isProductCode = yield ProductsModel_1.default.find({
+            productCode: body.productCode,
         });
-        if (!isSupplierCode) {
+        if (!isProductCode) {
             return res.status(400).json({
                 code: 1011,
-                message: enum_1.MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
+                message: enum_1.MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
             });
         }
-        const newSupplier = yield SuppliersModel_1.default.create(Object.assign({}, body));
+        const newSupplier = yield ProductsModel_1.default.create(Object.assign({}, body));
         return res.status(200).json({
             code: 1010,
-            message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
+            message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
             data: newSupplier,
         });
     }
@@ -71,5 +71,5 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-exports.addSupplier = addSupplier;
-//# sourceMappingURL=supplierController.js.map
+exports.addInventory = addInventory;
+//# sourceMappingURL=inventoryController.js.map
