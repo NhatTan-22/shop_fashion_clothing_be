@@ -7,7 +7,24 @@ import { MESSAGE_SUPPLIER_ENUM } from "~/utils/constants/enum";
 // [GET] /suppliers
 const getSuppliers = async (req: any, res: any) => {
   try {
-    const { currentPage, limitPage } = req.query;
+    const { search, currentPage, limitPage } = req.query;
+    if (search) {
+      const query = { supplierCode: { $regex: search, $options: "i" } };
+
+      const supplierData = await SupplierModel.find(query).limit(5);
+
+      const dataSearch = supplierData.map((supplier) => ({
+        value: supplier.supplierCode,
+        label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+      }));
+
+      return res.status(200).json({
+        code: 1010,
+        message: "Tìm kiếm thành công",
+        data: dataSearch,
+      });
+    }
+
     const skip = (currentPage - 1) * limitPage;
     const supplierLength = await SupplierModel.countDocuments();
 
@@ -50,9 +67,14 @@ const addSupplier = async (req: any, res: any) => {
       });
     }
 
+    if (typeof body.isTaking === "string") {
+      body.isTaking = JSON.parse(body.isTaking);
+    }
+
     const newSupplier = await SupplierModel.create({
       ...body,
-      // supplierImage: req.file.path,
+      isTaking: [0],
+      supplierImage: req.file.path,
     });
 
     return res.status(200).json({

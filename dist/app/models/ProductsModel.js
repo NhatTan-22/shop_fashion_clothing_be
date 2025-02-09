@@ -29,16 +29,13 @@ const PriceSchema = new mongoose_1.Schema({
     importPrice: { type: Number },
     promotionPrice: { type: Number },
 });
-const SizeQuantitySchema = new mongoose_1.Schema({
-    size: { type: String },
+const VariantSchema = new mongoose_1.Schema({
+    image: { type: String },
+    productColor: { type: String },
+    productSize: { type: String },
     storeQuantity: { type: Number },
     importQuantity: { type: Number },
     sellingQuantity: { type: Number },
-});
-const VariantSchema = new mongoose_1.Schema({
-    image: { type: [String] },
-    color: { type: String },
-    sizes: SizeQuantitySchema,
 });
 const ProductSchema = new mongoose_1.Schema({
     productCode: {
@@ -56,16 +53,10 @@ const ProductSchema = new mongoose_1.Schema({
         type: String,
         require: true,
     },
-    supplierCode: {
-        type: String,
-        require: true,
-    },
+    supplierCode: { type: String, ref: "Supplier" },
     price: PriceSchema,
     variants: VariantSchema,
-    category: {
-        type: String,
-        require: true,
-    },
+    category: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "Category" },
     status: {
         type: Boolean,
     },

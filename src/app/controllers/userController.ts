@@ -59,6 +59,7 @@ const login = async (req: any, res: any) => {
       _id: user._id,
       email: user.email,
       role: user.role ?? ROLE_ENUM.USER,
+      tokenType: "AT",
     });
 
     const { password: _doc, ...resData } = user._doc;

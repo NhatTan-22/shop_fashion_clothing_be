@@ -13,6 +13,9 @@ var MESSAGE_ENUM;
     MESSAGE_ENUM["SUCCESS_REGISTER"] = "Create user successfully.";
     // WARNING
     MESSAGE_ENUM["WARNING_LOGIN_EMAIL"] = "Email already exists.";
+    MESSAGE_ENUM["WARNING_LOGIN"] = "Please login!";
+    MESSAGE_ENUM["WARNING_NOT_USER"] = "User not found!";
+    MESSAGE_ENUM["WARNING_NOT_INTEREST"] = "You do not have access!";
     // ERROR
     MESSAGE_ENUM["ERROR_LOGIN"] = "Email/Password does not exist.";
     MESSAGE_ENUM["ERROR_LOGIN_FAIL"] = "Login failed! Please check Email/Password and login again.";

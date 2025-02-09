@@ -24,48 +24,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const SupplierSchema = new mongoose_1.Schema({
-    supplierImage: {
-        type: String,
-        default: "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
-    },
-    supplierCode: {
-        type: String,
-        require: true,
-    },
-    supplierName: {
-        type: String,
-        require: true,
-    },
-    supplierPhone: {
-        type: String,
-        require: true,
-    },
-    supplierEmail: {
-        type: String,
-        require: true,
-    },
-    supplierAddress: {
-        type: String,
-        require: true,
-    },
-    productCode: {
-        type: String,
-        ref: "Products",
-    },
-    quantityImported: {
-        type: Number,
-        require: true,
-        default: 0,
-    },
-    isTaking: {
-        type: [Number],
-        default: [0],
-        enum: [0, 1, 2],
-    },
-}, {
-    timestamps: true,
-});
-const SupplierModel = mongoose_1.default.model("Supplier", SupplierSchema);
-exports.default = SupplierModel;
-//# sourceMappingURL=SuppliersModel.js.map
+const CategoryScheme = new mongoose_1.Schema({
+    isChecked: { type: Boolean, default: false },
+    name: { type: String },
+}, { timestamps: true });
+const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Category", CategoryScheme);
+exports.default = CategoryModel;
+//# sourceMappingURL=CategoriesModel.js.map
