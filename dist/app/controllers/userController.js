@@ -79,6 +79,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             _id: user._id,
             email: user.email,
             role: (_a = user.role) !== null && _a !== void 0 ? _a : enum_1.ROLE_ENUM.USER,
+            tokenType: "AT",
         });
         const _b = user._doc, { password: _doc } = _b, resData = __rest(_b, ["password"]);
         return res.status(200).json({

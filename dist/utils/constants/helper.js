@@ -50,7 +50,7 @@ exports.createAdminUser = createAdminUser;
 // Handle Get AccessToken
 const getAccessToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: "1h",
+        expiresIn: "10h",
     });
     return accessToken;
 });

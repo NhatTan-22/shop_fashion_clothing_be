@@ -1,14 +1,15 @@
 import authRouter from "./authRouter";
 import supplierRouter from "./supplierRouter";
 import inventoryRouter from "./inventoryRouter";
+import categoryRouter from "./categoryRouter";
 
 const appRouter = (app: any) => {
-  // app.use("/products", authRouter);
+  app.use("/categories", categoryRouter);
 
   app.use("/auth", authRouter);
 
-  app.use("/admin", supplierRouter);
-  app.use("/admin", inventoryRouter);
+  app.use("/suppliers", supplierRouter);
+  app.use("/products", inventoryRouter);
 };
 
 export default appRouter;

@@ -1,10 +1,5 @@
-import mongoose, { Model, Schema } from "mongoose";
-import {
-  IPrice,
-  IProduct,
-  ISizeQuantity,
-  IVariant,
-} from "~/utils/interfaces/product";
+import mongoose, { Model, Schema, Types } from "mongoose";
+import { IPrice, IProduct, IVariant } from "~/utils/interfaces/product";
 
 const PriceSchema: Schema<IPrice> = new Schema({
   sellingPrice: { type: Number },
@@ -12,17 +7,13 @@ const PriceSchema: Schema<IPrice> = new Schema({
   promotionPrice: { type: Number },
 });
 
-const SizeQuantitySchema: Schema<ISizeQuantity> = new Schema({
-  size: { type: String },
+const VariantSchema: Schema<IVariant> = new Schema({
+  image: { type: String },
+  productColor: { type: String },
+  productSize: { type: String },
   storeQuantity: { type: Number },
   importQuantity: { type: Number },
   sellingQuantity: { type: Number },
-});
-
-const VariantSchema: Schema<IVariant> = new Schema({
-  image: { type: [String] },
-  color: { type: String },
-  sizes: SizeQuantitySchema,
 });
 
 const ProductSchema: Schema<IProduct> = new Schema(
@@ -42,16 +33,10 @@ const ProductSchema: Schema<IProduct> = new Schema(
       type: String,
       require: true,
     },
-    supplierCode: {
-      type: String,
-      require: true,
-    },
+    supplierCode: { type: String, ref: "Supplier" },
     price: PriceSchema,
     variants: VariantSchema,
-    category: {
-      type: String,
-      require: true,
-    },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     status: {
       type: Boolean,
     },

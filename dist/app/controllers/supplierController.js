@@ -18,7 +18,20 @@ const enum_1 = require("~/utils/constants/enum");
 // [GET] /suppliers
 const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { currentPage, limitPage } = req.query;
+        const { search, currentPage, limitPage } = req.query;
+        if (search) {
+            const query = { supplierCode: { $regex: search, $options: "i" } };
+            const supplierData = yield SuppliersModel_1.default.find(query).limit(5);
+            const dataSearch = supplierData.map((supplier) => ({
+                value: supplier.supplierCode,
+                label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+            }));
+            return res.status(200).json({
+                code: 1010,
+                message: "Tìm kiếm thành công",
+                data: dataSearch,
+            });
+        }
         const skip = (currentPage - 1) * limitPage;
         const supplierLength = yield SuppliersModel_1.default.countDocuments();
         const supplierData = yield SuppliersModel_1.default.find({})
@@ -57,7 +70,10 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 message: enum_1.MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
             });
         }
-        const newSupplier = yield SuppliersModel_1.default.create(Object.assign({}, body));
+        if (typeof body.isTaking === "string") {
+            body.isTaking = JSON.parse(body.isTaking);
+        }
+        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { isTaking: [0], supplierImage: req.file.path }));
         return res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,

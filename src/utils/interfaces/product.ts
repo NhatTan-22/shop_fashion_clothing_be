@@ -10,7 +10,7 @@ export interface IProduct extends Document {
   status: boolean;
   price?: IPrice;
   variants: IVariant[];
-  category: string;
+  category: ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -22,13 +22,9 @@ export interface IPrice extends Document {
 }
 
 export interface IVariant extends Document {
-  image: [string];
-  color: string;
-  sizes: ISizeQuantity[];
-}
-
-export interface ISizeQuantity extends Document {
-  size: string;
+  image: string;
+  productColor: string;
+  productSize: string;
   storeQuantity?: number;
   importQuantity?: number;
   sellingQuantity?: number;

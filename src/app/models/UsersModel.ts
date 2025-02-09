@@ -29,7 +29,7 @@ const UserSchema: Schema = new Schema(
     photoUrl: {
       type: String,
       default:
-        "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
+        "https://th.bing.com/th/id/OIP.Gg0lRdcH7S-EO2NWbRzCMQAAAA?pid=ImgDet&w=167&h=183&c=7&dpr=1.3",
     },
     role: {
       type: Number,
