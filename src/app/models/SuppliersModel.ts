@@ -30,7 +30,7 @@ const SupplierSchema: Schema<ISupplier> = new Schema(
     },
     productCode: {
       type: String,
-      ref: "Product",
+      ref: "Products",
     },
     quantityImported: {
       type: Number,

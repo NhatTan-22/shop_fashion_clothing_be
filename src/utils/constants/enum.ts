@@ -9,6 +9,10 @@ export enum MESSAGE_ENUM {
   SUCCESS_REGISTER = "Create user successfully.",
   // WARNING
   WARNING_LOGIN_EMAIL = "Email already exists.",
+
+  WARNING_LOGIN = "Please login!",
+  WARNING_NOT_USER = "User not found!",
+  WARNING_NOT_INTEREST = "You do not have access!",
   // ERROR
   ERROR_LOGIN = "Email/Password does not exist.",
   ERROR_LOGIN_FAIL = "Login failed! Please check Email/Password and login again.",
