@@ -51,14 +51,14 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const isProductCode = yield ProductsModel_1.default.find({
             productCode: body.productCode,
         });
-        if (!isProductCode) {
+        if (isProductCode) {
             return res.status(400).json({
                 code: 1011,
                 message: enum_1.MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
             });
         }
         const newSupplier = yield ProductsModel_1.default.create(Object.assign(Object.assign({}, body), { supplierImage: req.file.path }));
-        return res.status(200).json({
+        return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
             data: newSupplier,

@@ -16,7 +16,6 @@ const UserSchema: Schema = new Schema(
     },
     phone: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -35,6 +34,7 @@ const UserSchema: Schema = new Schema(
       type: Number,
       default: ROLE_ENUM.USER,
     },
+    refreshToken: { type: String },
   },
   { timestamps: true }
 );

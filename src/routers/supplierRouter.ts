@@ -14,7 +14,7 @@ router.use(verifyToken);
 
 router.use(authorization([0]));
 
-router.post("/suppliers/new-add", uploadImage, addSupplier);
+router.post("/new-add", uploadImage, addSupplier);
 
 router.get("/", getSuppliers);
 

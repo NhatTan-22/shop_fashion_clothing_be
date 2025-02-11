@@ -13,14 +13,22 @@ const getSuppliers = async (req: any, res: any) => {
 
       const supplierData = await SupplierModel.find(query).limit(5);
 
+      // if (!supplierData.length) {
+      //   return res.status(404).json({
+      //     code: 1014,
+      //     message: "Not found category.",
+      //     data: [],
+      //   });
+      // }
+
       const dataSearch = supplierData.map((supplier) => ({
         value: supplier.supplierCode,
         label: `${supplier.supplierCode} - ${supplier.supplierName}`,
       }));
 
       return res.status(200).json({
-        code: 1010,
-        message: "Tìm kiếm thành công",
+        code: 1015,
+        message: "Search success.",
         data: dataSearch,
       });
     }
@@ -44,7 +52,7 @@ const getSuppliers = async (req: any, res: any) => {
       },
     });
   } catch (error) {
-    res.status(404).json({
+    return res.status(404).json({
       code: 1013,
       message: error.message,
     });
@@ -61,7 +69,7 @@ const addSupplier = async (req: any, res: any) => {
     });
 
     if (!isSupplierCode) {
-      return res.status(400).json({
+      return res.status(404).json({
         code: 1011,
         message: MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
       });
@@ -77,13 +85,13 @@ const addSupplier = async (req: any, res: any) => {
       supplierImage: req.file.path,
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       code: 1010,
       message: MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
       data: newSupplier,
     });
   } catch (error) {
-    res.status(404).json({
+    return res.status(404).json({
       code: 1013,
       message: error.message,
     });

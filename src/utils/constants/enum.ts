@@ -19,6 +19,7 @@ export enum MESSAGE_ENUM {
 
   ERROR_TOKEN_ACCESS_DENIED = "Access denied",
   ERROR_TOKEN_INVALID_TOKEN = "Invalid Token",
+  ERROR_TOKEN_EXPIRED = "Token expired",
 }
 
 export enum MESSAGE_SUPPLIER_ENUM {

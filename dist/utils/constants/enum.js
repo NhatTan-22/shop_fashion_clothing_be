@@ -21,6 +21,7 @@ var MESSAGE_ENUM;
     MESSAGE_ENUM["ERROR_LOGIN_FAIL"] = "Login failed! Please check Email/Password and login again.";
     MESSAGE_ENUM["ERROR_TOKEN_ACCESS_DENIED"] = "Access denied";
     MESSAGE_ENUM["ERROR_TOKEN_INVALID_TOKEN"] = "Invalid Token";
+    MESSAGE_ENUM["ERROR_TOKEN_EXPIRED"] = "Token expired";
 })(MESSAGE_ENUM || (exports.MESSAGE_ENUM = MESSAGE_ENUM = {}));
 var MESSAGE_SUPPLIER_ENUM;
 (function (MESSAGE_SUPPLIER_ENUM) {
