@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const CategoryScheme: Schema = new Schema(
   {
     isChecked: { type: Boolean, default: false },
-    name: { type: String },
+    label: { type: String },
+    supplierCode: { type: mongoose.Schema.Types.String, ref: "Supplier" },
   },
   { timestamps: true }
 );

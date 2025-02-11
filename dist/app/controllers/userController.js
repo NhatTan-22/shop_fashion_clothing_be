@@ -23,9 +23,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.login = void 0;
+exports.refreshToken = exports.register = exports.login = void 0;
 // Libs
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 // Others
 const enum_1 = require("~/utils/constants/enum");
 const UsersModel_1 = __importDefault(require("../models/UsersModel"));
@@ -43,7 +44,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const hasPassword = yield bcrypt_1.default.hash(password, 12);
         yield UsersModel_1.default.create(Object.assign(Object.assign({}, req.body), { password: hasPassword }));
-        return res.status(200).json({
+        return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_ENUM.SUCCESS_REGISTER,
         });
@@ -58,7 +59,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 // [POST] /login
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const { email, password } = req.body;
     try {
         const user = yield UsersModel_1.default.findOne({ email });
@@ -75,20 +76,28 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: enum_1.MESSAGE_ENUM.ERROR_LOGIN_FAIL,
             });
         }
-        const payload = yield (0, helper_1.getAccessToken)({
+        const accessToken = yield (0, helper_1.getAccessToken)({
             _id: user._id,
             email: user.email,
             role: (_a = user.role) !== null && _a !== void 0 ? _a : enum_1.ROLE_ENUM.USER,
             tokenType: "AT",
         });
-        const _b = user._doc, { password: _doc } = _b, resData = __rest(_b, ["password"]);
+        const refreshToken = yield (0, helper_1.getRefreshToken)({
+            _id: user._id,
+            email: user.email,
+            role: (_b = user.role) !== null && _b !== void 0 ? _b : enum_1.ROLE_ENUM.USER,
+            tokenType: "RT",
+        });
+        user.refreshToken = refreshToken;
+        yield user.save();
+        const _c = user._doc, { password: _doc } = _c, resData = __rest(_c, ["password"]);
         return res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_ENUM.SUCCESS_LOGIN,
             data: resData,
             token: {
-                access: payload,
-                refresh: "",
+                access: accessToken,
+                refresh: refreshToken,
             },
         });
     }
@@ -100,4 +109,37 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+// [POST] /refresh
+const refreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { refreshToken } = req.body;
+        if (!refreshToken || !refreshToken.includes(refreshToken)) {
+            return res.status(403).json({
+                code: 1014,
+                message: "Refresh token is invalid",
+            });
+        }
+        jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                return res.status(403).json({
+                    code: 1015,
+                    message: "Refresh token expired",
+                });
+            }
+            const newAccessToken = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+            return res.status(200).json({
+                code: 1011,
+                message: "Refresh token successful",
+                accessToken: newAccessToken,
+            });
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            code: 1016,
+            message: error.message || "Internal Server Error",
+        });
+    }
+});
+exports.refreshToken = refreshToken;
 //# sourceMappingURL=userController.js.map

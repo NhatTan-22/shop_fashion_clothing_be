@@ -38,7 +38,6 @@ const UserSchema = new mongoose_1.Schema({
     },
     phone: {
         type: String,
-        required: true,
     },
     email: {
         type: String,
@@ -56,6 +55,7 @@ const UserSchema = new mongoose_1.Schema({
         type: Number,
         default: enum_1.ROLE_ENUM.USER,
     },
+    refreshToken: { type: String },
 }, { timestamps: true });
 const UserModel = mongoose_1.default.models.User || mongoose_1.default.model("User", UserSchema);
 exports.default = UserModel;

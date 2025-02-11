@@ -22,13 +22,20 @@ const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (search) {
             const query = { supplierCode: { $regex: search, $options: "i" } };
             const supplierData = yield SuppliersModel_1.default.find(query).limit(5);
+            // if (!supplierData.length) {
+            //   return res.status(404).json({
+            //     code: 1014,
+            //     message: "Not found category.",
+            //     data: [],
+            //   });
+            // }
             const dataSearch = supplierData.map((supplier) => ({
                 value: supplier.supplierCode,
                 label: `${supplier.supplierCode} - ${supplier.supplierName}`,
             }));
             return res.status(200).json({
-                code: 1010,
-                message: "Tìm kiếm thành công",
+                code: 1015,
+                message: "Search success.",
                 data: dataSearch,
             });
         }
@@ -50,7 +57,7 @@ const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        res.status(404).json({
+        return res.status(404).json({
             code: 1013,
             message: error.message,
         });
@@ -65,7 +72,7 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             supplierCode: body.supplierCode,
         });
         if (!isSupplierCode) {
-            return res.status(400).json({
+            return res.status(404).json({
                 code: 1011,
                 message: enum_1.MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
             });
@@ -74,14 +81,14 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             body.isTaking = JSON.parse(body.isTaking);
         }
         const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { isTaking: [0], supplierImage: req.file.path }));
-        return res.status(200).json({
+        return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
             data: newSupplier,
         });
     }
     catch (error) {
-        res.status(404).json({
+        return res.status(404).json({
             code: 1013,
             message: error.message,
         });

@@ -1,9 +1,10 @@
 // Libs
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 // Others
 import { MESSAGE_ENUM, ROLE_ENUM } from "~/utils/constants/enum";
 import UserModel from "../models/UsersModel";
-import { getAccessToken } from "~/utils/constants/helper";
+import { getAccessToken, getRefreshToken } from "~/utils/constants/helper";
 
 // [POST] /register
 const register = async (req: any, res: any) => {
@@ -20,9 +21,10 @@ const register = async (req: any, res: any) => {
     }
 
     const hasPassword = await bcrypt.hash(password, 12);
+
     await UserModel.create({ ...req.body, password: hasPassword });
 
-    return res.status(200).json({
+    return res.status(201).json({
       code: 1010,
       message: MESSAGE_ENUM.SUCCESS_REGISTER,
     });
@@ -55,12 +57,22 @@ const login = async (req: any, res: any) => {
       });
     }
 
-    const payload = await getAccessToken({
+    const accessToken = await getAccessToken({
       _id: user._id,
       email: user.email,
       role: user.role ?? ROLE_ENUM.USER,
       tokenType: "AT",
     });
+
+    const refreshToken = await getRefreshToken({
+      _id: user._id,
+      email: user.email,
+      role: user.role ?? ROLE_ENUM.USER,
+      tokenType: "RT",
+    });
+
+    user.refreshToken = refreshToken;
+    await user.save();
 
     const { password: _doc, ...resData } = user._doc;
 
@@ -69,8 +81,8 @@ const login = async (req: any, res: any) => {
       message: MESSAGE_ENUM.SUCCESS_LOGIN,
       data: resData,
       token: {
-        access: payload,
-        refresh: "",
+        access: accessToken,
+        refresh: refreshToken,
       },
     });
   } catch (error) {
@@ -81,4 +93,44 @@ const login = async (req: any, res: any) => {
   }
 };
 
-export { login, register };
+// [POST] /refresh
+const refreshToken = async (req: any, res: any) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken || !refreshToken.includes(refreshToken)) {
+      return res.status(403).json({
+        code: 1014,
+        message: "Refresh token is invalid",
+      });
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          code: 1015,
+          message: "Refresh token expired",
+        });
+      }
+
+      const newAccessToken = jwt.sign(
+        { id: user.id, role: user.role },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "15m" }
+      );
+
+      return res.status(200).json({
+        code: 1011,
+        message: "Refresh token successful",
+        accessToken: newAccessToken,
+      });
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      code: 1016,
+      message: error.message || "Internal Server Error",
+    });
+  }
+};
+
+export { login, register, refreshToken };
