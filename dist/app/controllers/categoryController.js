@@ -12,32 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCategory = exports.addCategory = void 0;
+exports.searchCategories = exports.getCategories = exports.addCategory = void 0;
+const enum_1 = require("~/utils/constants/enum");
 const CategoriesModel_1 = __importDefault(require("../models/CategoriesModel"));
-// [GET] /category
-const getCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// [GET] /categories
+const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { search } = req.query;
-        if (search) {
-            const query = { label: { $regex: search, $options: "i" } };
-            const categoryData = yield CategoriesModel_1.default.find(query);
-            //   if (!categoryData.length) {
-            //     return res.status(404).json({
-            //       code: 1014,
-            //       message: "Not found category.",
-            //       data: [],
-            //     });
-            //   }
-            const dataSearch = categoryData.map((category) => ({
-                value: category._id,
-                label: category.label,
-            }));
-            return res.status(200).json({
-                code: 1010,
-                message: "Search success.",
-                data: dataSearch,
-            });
-        }
+        const { currentPage, limitPage } = req.query;
+        const skip = (currentPage - 1) * limitPage;
+        const supplierLength = yield CategoriesModel_1.default.countDocuments();
+        const supplierData = yield CategoriesModel_1.default.find({})
+            .skip(skip)
+            .limit(limitPage);
+        return res.status(200).json({
+            code: 1010,
+            message: enum_1.MESSAGE_CATEGORY_ENUM.SUCCESS_GET_CATEGORY,
+            data: {
+                data: supplierData,
+                pagination: {
+                    lengthPage: supplierLength,
+                    currentPage: Number(currentPage),
+                },
+            },
+        });
     }
     catch (error) {
         return res.status(404).json({
@@ -46,7 +43,38 @@ const getCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-exports.getCategory = getCategory;
+exports.getCategories = getCategories;
+// [GET] /select
+const searchCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { search } = req.query;
+        const query = search ? { label: { $regex: search, $options: "i" } } : {};
+        const categoryData = yield CategoriesModel_1.default.find(query).limit(5);
+        if (!categoryData.length) {
+            return res.status(404).json({
+                code: 1014,
+                message: "Not found category.",
+                data: [],
+            });
+        }
+        const dataSearch = categoryData.map((supplier) => ({
+            value: supplier.supplierCode,
+            label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+        }));
+        return res.status(200).json({
+            code: 1015,
+            message: "Search success.",
+            data: dataSearch,
+        });
+    }
+    catch (error) {
+        return res.status(404).json({
+            code: 1013,
+            message: error.message,
+        });
+    }
+});
+exports.searchCategories = searchCategories;
 // [POST] /category/new-add
 const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
