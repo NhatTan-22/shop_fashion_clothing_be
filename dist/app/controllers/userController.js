@@ -90,7 +90,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         user.refreshToken = refreshToken;
         yield user.save();
-        const _c = user._doc, { password: _doc } = _c, resData = __rest(_c, ["password"]);
+        const _c = user._doc, { password: hiddenPassword, refreshToken: hiddenToken, _id } = _c, resData = __rest(_c, ["password", "refreshToken", "_id"]);
         return res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_ENUM.SUCCESS_LOGIN,

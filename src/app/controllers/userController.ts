@@ -74,7 +74,12 @@ const login = async (req: any, res: any) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    const { password: _doc, ...resData } = user._doc;
+    const {
+      password: hiddenPassword,
+      refreshToken: hiddenToken,
+      _id,
+      ...resData
+    } = user._doc;
 
     return res.status(200).json({
       code: 1010,

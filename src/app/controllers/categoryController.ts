@@ -1,33 +1,63 @@
+import { MESSAGE_CATEGORY_ENUM } from "~/utils/constants/enum";
 import CategoryModel from "../models/CategoriesModel";
 
-// [GET] /category
-const getCategory = async (req: any, res: any) => {
+// [GET] /categories
+const getCategories = async (req: any, res: any) => {
+  try {
+    const { currentPage, limitPage } = req.query;
+
+    const skip = (currentPage - 1) * limitPage;
+    const supplierLength = await CategoryModel.countDocuments();
+
+    const supplierData = await CategoryModel.find({})
+      .skip(skip)
+      .limit(limitPage);
+
+    return res.status(200).json({
+      code: 1010,
+      message: MESSAGE_CATEGORY_ENUM.SUCCESS_GET_CATEGORY,
+      data: {
+        data: supplierData,
+        pagination: {
+          lengthPage: supplierLength,
+          currentPage: Number(currentPage),
+        },
+      },
+    });
+  } catch (error) {
+    return res.status(404).json({
+      code: 1013,
+      message: error.message,
+    });
+  }
+};
+
+// [GET] /select
+const searchCategories = async (req: any, res: any) => {
   try {
     const { search } = req.query;
-    if (search) {
-      const query = { label: { $regex: search, $options: "i" } };
+    const query = search ? { label: { $regex: search, $options: "i" } } : {};
 
-      const categoryData = await CategoryModel.find(query);
+    const categoryData = await CategoryModel.find(query).limit(5);
 
-    //   if (!categoryData.length) {
-    //     return res.status(404).json({
-    //       code: 1014,
-    //       message: "Not found category.",
-    //       data: [],
-    //     });
-    //   }
-
-      const dataSearch = categoryData.map((category) => ({
-        value: category._id,
-        label: category.label,
-      }));
-
-      return res.status(200).json({
-        code: 1010,
-        message: "Search success.",
-        data: dataSearch,
+    if (!categoryData.length) {
+      return res.status(404).json({
+        code: 1014,
+        message: "Not found category.",
+        data: [],
       });
     }
+
+    const dataSearch = categoryData.map((supplier) => ({
+      value: supplier.supplierCode,
+      label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+    }));
+
+    return res.status(200).json({
+      code: 1015,
+      message: "Search success.",
+      data: dataSearch,
+    });
   } catch (error) {
     return res.status(404).json({
       code: 1013,
@@ -68,4 +98,4 @@ const addCategory = async (req: any, res: any) => {
   }
 };
 
-export { addCategory, getCategory };
+export { addCategory, getCategories, searchCategories };
