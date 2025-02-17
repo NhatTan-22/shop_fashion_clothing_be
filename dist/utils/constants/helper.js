@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRefreshToken = exports.getAccessToken = exports.createAdminUser = void 0;
+exports.applyDiscount = exports.getRefreshToken = exports.getAccessToken = exports.createAdminUser = void 0;
 // Libs
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -55,6 +55,7 @@ const getAccessToken = (payload) => __awaiter(void 0, void 0, void 0, function* 
     return accessToken;
 });
 exports.getAccessToken = getAccessToken;
+// Handle Get RefreshToken
 const getRefreshToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = jsonwebtoken_1.default.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: "1y",
@@ -62,4 +63,20 @@ const getRefreshToken = (payload) => __awaiter(void 0, void 0, void 0, function*
     return refreshToken;
 });
 exports.getRefreshToken = getRefreshToken;
+// Price calculation function after applying discount code
+const applyDiscount = (price, discount) => {
+    let finalPrice = price;
+    if (discount.discountType === "PERCENTAGE") {
+        let discountAmount = (price * discount.value) / 100;
+        if (discount.maxDiscount) {
+            discountAmount = Math.min(discountAmount, discount.maxDiscount);
+        }
+        finalPrice -= discountAmount;
+    }
+    else if (discount.discountType === "FIXED") {
+        finalPrice -= discount.value;
+    }
+    return Math.max(finalPrice, 0);
+};
+exports.applyDiscount = applyDiscount;
 //# sourceMappingURL=helper.js.map

@@ -1,6 +1,6 @@
 import { Document, ObjectId } from "mongoose";
 
-export interface IReview extends Document {
+export interface IPayment extends Document {
   _id: ObjectId;
   orderId: ObjectId; // Liên kết với đơn hàng
   userId: ObjectId; // Liên kết với người dùng

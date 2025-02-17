@@ -56,6 +56,7 @@ export const getAccessToken = async (payload: IPayloadAccessToken) => {
   return accessToken;
 };
 
+// Handle Get RefreshToken
 export const getRefreshToken = async (payload: IPayloadAccessToken) => {
   const refreshToken = jwt.sign(
     payload,
@@ -66,4 +67,21 @@ export const getRefreshToken = async (payload: IPayloadAccessToken) => {
   );
 
   return refreshToken;
+};
+
+// Price calculation function after applying discount code
+export const applyDiscount = (price, discount) => {
+  let finalPrice = price;
+
+  if (discount.discountType === "PERCENTAGE") {
+    let discountAmount = (price * discount.value) / 100;
+    if (discount.maxDiscount) {
+      discountAmount = Math.min(discountAmount, discount.maxDiscount);
+    }
+    finalPrice -= discountAmount;
+  } else if (discount.discountType === "FIXED") {
+    finalPrice -= discount.value;
+  }
+
+  return Math.max(finalPrice, 0);
 };
