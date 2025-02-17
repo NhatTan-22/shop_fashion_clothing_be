@@ -24,11 +24,35 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const CategoryScheme = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    description: { type: String },
-    skuSupplier: { type: mongoose_1.Schema.Types.ObjectId, ref: "Suppliers" },
-}, { timestamps: true });
-const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Categories", CategoryScheme);
-exports.default = CategoryModel;
-//# sourceMappingURL=CategoriesModel.js.map
+const OrderSchema = new mongoose_1.Schema({
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Users" },
+    products: [
+        {
+            productId: {
+                type: mongoose_1.Schema.Types.ObjectId,
+                ref: "Products",
+                required: true,
+            },
+            quantity: { type: Number, required: true, min: 1 },
+            price: { type: Number, required: true },
+        },
+    ],
+    totalPrice: { type: Number, required: true },
+    discount: { type: mongoose_1.Schema.Types.ObjectId, ref: "Coupons" },
+    status: {
+        type: String,
+        enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELED"],
+        default: "PENDING",
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["PAID", "UNPAID"],
+        default: "UNPAID",
+    },
+    shippingId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Shippings" },
+}, {
+    timestamps: true,
+});
+const OrderModel = mongoose_1.default.model("Orders", OrderSchema);
+exports.default = OrderModel;
+//# sourceMappingURL=OrderModel.js.map

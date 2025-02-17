@@ -5,7 +5,7 @@ const CategoryScheme: Schema<ICategory> = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
-    skuSupplier: { type: mongoose.Schema.Types.String, ref: "Suppliers" },
+    skuSupplier: { type: Schema.Types.ObjectId, ref: "Suppliers" },
   },
   { timestamps: true }
 );
