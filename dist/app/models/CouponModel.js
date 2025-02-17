@@ -24,11 +24,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const CategoryScheme = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    description: { type: String },
-    skuSupplier: { type: mongoose_1.Schema.Types.ObjectId, ref: "Suppliers" },
-}, { timestamps: true });
-const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Categories", CategoryScheme);
-exports.default = CategoryModel;
-//# sourceMappingURL=CategoriesModel.js.map
+const CouponSchema = new mongoose_1.Schema({
+    code: { type: String, required: true, unique: true },
+    discountType: {
+        type: String,
+        enum: ["PERCENTAGE", "FIXED"],
+        default: "PERCENTAGE",
+    },
+    value: { type: Number, required: true },
+    minOrderValue: { type: Number, default: 0 },
+    maxDiscount: { type: Number, default: null },
+    expiryDate: { type: Date, required: true },
+    usedCount: { type: Number, default: 0 },
+    status: {
+        type: String,
+        enum: ["ACTIVE", "EXPIRED", "USED_UP", "DISABLED", "PENDING"],
+        default: "ACTIVE",
+    },
+}, {
+    timestamps: true,
+});
+const CouponModel = mongoose_1.default.model("Coupons", CouponSchema);
+exports.default = CouponModel;
+//# sourceMappingURL=CouponModel.js.map
