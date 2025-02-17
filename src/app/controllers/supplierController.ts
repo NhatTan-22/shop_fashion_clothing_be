@@ -8,9 +8,7 @@ import { MESSAGE_SUPPLIER_ENUM } from "~/utils/constants/enum";
 const searchSuppliers = async (req: any, res: any) => {
   try {
     const { search } = req.query;
-    const query = search
-      ? { supplierCode: { $regex: search, $options: "i" } }
-      : {};
+    const query = search ? { sku: { $regex: search, $options: "i" } } : {};
 
     const supplierData = await SupplierModel.find(query).limit(5);
 
@@ -23,8 +21,8 @@ const searchSuppliers = async (req: any, res: any) => {
     }
 
     const dataSearch = supplierData.map((supplier) => ({
-      value: supplier.supplierCode,
-      label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+      value: supplier.sku,
+      label: `${supplier.sku} - ${supplier.name}`,
     }));
 
     return res.status(200).json({
@@ -77,7 +75,7 @@ const addSupplier = async (req: any, res: any) => {
     const body: ISupplier = req.body;
 
     const isSupplierCode = await SupplierModel.find({
-      supplierCode: body.supplierCode,
+      sku: body.sku,
     });
 
     if (!isSupplierCode) {
@@ -87,12 +85,13 @@ const addSupplier = async (req: any, res: any) => {
       });
     }
 
-    if (typeof body.isTaking === "string") {
-      body.isTaking = JSON.parse(body.isTaking);
+    if (typeof body.restockStatus === "string") {
+      body.restockStatus = JSON.parse(body.restockStatus);
     }
 
     const newSupplier = await SupplierModel.create({
       ...body,
+      sku: body.sku.toUpperCase(),
       isTaking: [0],
       supplierImage: req.file.path,
     });
@@ -113,7 +112,7 @@ const addSupplier = async (req: any, res: any) => {
 // [DELETE] /:_id/delete
 const deleteSupplier = async (req: any, res: any) => {
   try {
-    const { _id: idSupplier } = req.query;
+    const { _id: idSupplier } = req.params;
 
     if (idSupplier) {
       await SupplierModel.deleteOne({ _id: idSupplier });

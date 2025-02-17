@@ -1,44 +1,42 @@
 import mongoose, { Model, Schema, Types } from "mongoose";
-import { IPrice, IProduct, IVariant } from "~/utils/interfaces/product";
-
-const PriceSchema: Schema<IPrice> = new Schema({
-  sellingPrice: { type: Number },
-  importPrice: { type: Number },
-  promotionPrice: { type: Number },
-});
-
-const VariantSchema: Schema<IVariant> = new Schema({
-  image: { type: String },
-  productColor: { type: String },
-  productSize: { type: String },
-  storeQuantity: { type: Number },
-  importQuantity: { type: Number },
-  sellingQuantity: { type: Number },
-});
+import { IProduct } from "~/utils/interfaces/product";
 
 const ProductSchema: Schema<IProduct> = new Schema(
   {
-    productCode: {
-      type: String,
-      require: true,
+    sku: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    description: { type: String },
+    images: [{ type: String }],
+    pricing: {
+      price: { type: Number, required: true },
+      promotionPrice: { type: Number, required: true },
+      discountPercentage: { type: Number, required: true },
     },
-    productName: {
-      type: String,
-      require: true,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Categories",
+      required: true,
     },
-    productImage: {
-      type: String,
+    stock: { type: Number, required: true },
+    brand: { type: Schema.Types.ObjectId, ref: "Brands" },
+    supplier: { type: Schema.Types.ObjectId, ref: "Suppliers" },
+    sizes: { type: [String], required: true },
+    colors: { type: [String], required: true },
+    ratings: { type: Number, min: 0, max: 5 },
+    gender: {
+      type: [String],
+      enum: ["MALE", "FEMALE", "BOTH"],
+      default: ["BOTH"],
     },
-    description: {
-      type: String,
-      require: true,
-    },
-    supplierCode: { type: String, ref: "Supplier" },
-    price: PriceSchema,
-    variants: VariantSchema,
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     status: {
-      type: Boolean,
+      type: String,
+      enum: ["ACTIVE", "DISCONTINUED"],
+      default: "active",
+    },
+    availability: {
+      type: String,
+      enum: ["IN_STOCK", "OUT_OF_STOCK"],
+      default: "IN_STOCK",
     },
   },
   { timestamps: true }

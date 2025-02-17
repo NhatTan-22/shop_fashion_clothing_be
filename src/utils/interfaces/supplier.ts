@@ -1,15 +1,19 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
 export interface ISupplier extends Document {
-  supplierImage?: string;
-  supplierCode: string;
-  supplierName: string;
-  supplierPhone: string;
-  supplierEmail: string;
-  supplierAddress: string;
-  productCode: string;
-  quantityImported: number;
-  isTaking: [number];
+  _id: ObjectId;
+  sku: String;
+  name: String;
+  contactPerson: String;
+  image: String;
+  email: String;
+  phone: String;
+  address: String;
+  categories: [ObjectId]; // Các danh mục mà nhà cung cấp cung cấp
+  orderQuantity: Number; // Số lượng nhập về
+  restockStatus: String; // "pending" | "shipped" | "received"
+  expectedArrivalDate: Date; // Ngày dự kiến sản phẩm đến
+  lastRestockDate?: Date; // Ngày nhập hàng gần nhất
   createdAt?: Date;
   updatedAt?: Date;
 }

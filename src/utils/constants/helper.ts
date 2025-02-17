@@ -49,7 +49,7 @@ export const getAccessToken = async (payload: IPayloadAccessToken) => {
     payload,
     process.env.ACCESS_TOKEN_SECRET as string,
     {
-      expiresIn: "10h",
+      expiresIn: "3h",
     }
   );
 
@@ -61,7 +61,7 @@ export const getRefreshToken = async (payload: IPayloadAccessToken) => {
     payload,
     process.env.REFRESH_TOKEN_SECRET as string,
     {
-      expiresIn: "7d",
+      expiresIn: "1y",
     }
   );
 

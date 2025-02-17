@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProduct, getProducts } from "~/app/controllers/inventoryController";
+import { addProduct, getProducts } from "~/app/controllers/productController";
 import authorization from "~/middleware/authorization";
 import verifyToken from "~/middleware/verifyToken";
 

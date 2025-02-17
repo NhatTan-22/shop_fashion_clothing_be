@@ -48,7 +48,7 @@ exports.getCategories = getCategories;
 const searchCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { search } = req.query;
-        const query = search ? { label: { $regex: search, $options: "i" } } : {};
+        const query = search ? { name: { $regex: search, $options: "i" } } : {};
         const categoryData = yield CategoriesModel_1.default.find(query).limit(5);
         if (!categoryData.length) {
             return res.status(404).json({
@@ -57,9 +57,9 @@ const searchCategories = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 data: [],
             });
         }
-        const dataSearch = categoryData.map((supplier) => ({
-            value: supplier.supplierCode,
-            label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+        const dataSearch = categoryData.map((category) => ({
+            value: category._id,
+            label: `${category.name} - ${category.skuSupplier}`,
         }));
         return res.status(200).json({
             code: 1015,

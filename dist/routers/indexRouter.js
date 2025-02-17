@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const authRouter_1 = __importDefault(require("./authRouter"));
 const supplierRouter_1 = __importDefault(require("./supplierRouter"));
-const inventoryRouter_1 = __importDefault(require("./inventoryRouter"));
+const productRouter_1 = __importDefault(require("./productRouter"));
 const categoryRouter_1 = __importDefault(require("./categoryRouter"));
 const appRouter = (app) => {
     app.use("/categories", categoryRouter_1.default);
     app.use("/auth", authRouter_1.default);
     app.use("/suppliers", supplierRouter_1.default);
-    app.use("/products", inventoryRouter_1.default);
+    app.use("/products", productRouter_1.default);
 };
 exports.default = appRouter;
 //# sourceMappingURL=indexRouter.js.map

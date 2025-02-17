@@ -126,7 +126,7 @@ const refreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     message: "Refresh token expired",
                 });
             }
-            const newAccessToken = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+            const newAccessToken = jsonwebtoken_1.default.sign({ _id: user._id, role: user.role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
             return res.status(200).json({
                 code: 1011,
                 message: "Refresh token successful",
