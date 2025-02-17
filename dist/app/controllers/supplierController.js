@@ -19,9 +19,7 @@ const enum_1 = require("~/utils/constants/enum");
 const searchSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { search } = req.query;
-        const query = search
-            ? { supplierCode: { $regex: search, $options: "i" } }
-            : {};
+        const query = search ? { sku: { $regex: search, $options: "i" } } : {};
         const supplierData = yield SuppliersModel_1.default.find(query).limit(5);
         if (!supplierData.length) {
             return res.status(404).json({
@@ -31,8 +29,8 @@ const searchSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function
             });
         }
         const dataSearch = supplierData.map((supplier) => ({
-            value: supplier.supplierCode,
-            label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+            value: supplier.sku,
+            label: `${supplier.sku} - ${supplier.name}`,
         }));
         return res.status(200).json({
             code: 1015,
@@ -82,7 +80,7 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const body = req.body;
         const isSupplierCode = yield SuppliersModel_1.default.find({
-            supplierCode: body.supplierCode,
+            sku: body.sku,
         });
         if (!isSupplierCode) {
             return res.status(404).json({
@@ -90,10 +88,10 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 message: enum_1.MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
             });
         }
-        if (typeof body.isTaking === "string") {
-            body.isTaking = JSON.parse(body.isTaking);
+        if (typeof body.restockStatus === "string") {
+            body.restockStatus = JSON.parse(body.restockStatus);
         }
-        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { isTaking: [0], supplierImage: req.file.path }));
+        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { sku: body.sku.toUpperCase(), isTaking: [0], supplierImage: req.file.path }));
         return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
@@ -111,7 +109,7 @@ exports.addSupplier = addSupplier;
 // [DELETE] /:_id/delete
 const deleteSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { _id: idSupplier } = req.query;
+        const { _id: idSupplier } = req.params;
         if (idSupplier) {
             yield SuppliersModel_1.default.deleteOne({ _id: idSupplier });
             return res.status(200).json({

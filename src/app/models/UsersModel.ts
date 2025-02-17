@@ -20,6 +20,7 @@ const UserSchema: Schema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -33,6 +34,7 @@ const UserSchema: Schema = new Schema(
     role: {
       type: Number,
       default: ROLE_ENUM.USER,
+      enum: [0, 1],
     },
     refreshToken: { type: String },
   },
@@ -40,6 +42,6 @@ const UserSchema: Schema = new Schema(
 );
 
 const UserModel =
-  mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
+  mongoose.models.User || mongoose.model<IUser>("Users", UserSchema);
 
 export default UserModel;

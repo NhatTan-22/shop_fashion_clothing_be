@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { MESSAGE_ENUM, ROLE_ENUM } from "~/utils/constants/enum";
 import UserModel from "../models/UsersModel";
 import { getAccessToken, getRefreshToken } from "~/utils/constants/helper";
+import { IUser } from "~/utils/interfaces/user";
 
 // [POST] /register
 const register = async (req: any, res: any) => {
@@ -110,26 +111,30 @@ const refreshToken = async (req: any, res: any) => {
       });
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        return res.status(403).json({
-          code: 1015,
-          message: "Refresh token expired",
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (err: any, user: IUser) => {
+        if (err) {
+          return res.status(403).json({
+            code: 1015,
+            message: "Refresh token expired",
+          });
+        }
+
+        const newAccessToken = jwt.sign(
+          { _id: user._id, role: user.role },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "30m" }
+        );
+
+        return res.status(200).json({
+          code: 1011,
+          message: "Refresh token successful",
+          accessToken: newAccessToken,
         });
       }
-
-      const newAccessToken = jwt.sign(
-        { id: user.id, role: user.role },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "15m" }
-      );
-
-      return res.status(200).json({
-        code: 1011,
-        message: "Refresh token successful",
-        accessToken: newAccessToken,
-      });
-    });
+    );
   } catch (error: any) {
     return res.status(500).json({
       code: 1016,

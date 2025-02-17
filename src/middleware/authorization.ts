@@ -13,6 +13,7 @@ const authorization = (permission: number[]) => {
       if (!req.userID) {
         return res.status(401).json({ message: "Unauthorized access" });
       }
+
       let { _id } = req.userID;
 
       if (!_id) {

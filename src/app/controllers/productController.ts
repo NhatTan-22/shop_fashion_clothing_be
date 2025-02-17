@@ -39,7 +39,7 @@ const addProduct = async (req: any, res: any) => {
     const body: IProduct = req.body;
 
     const isProductCode = await ProductModel.find({
-      productCode: body.productCode,
+      sku: body.sku,
     });
 
     if (isProductCode) {

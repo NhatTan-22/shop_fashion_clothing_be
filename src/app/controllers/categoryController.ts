@@ -36,7 +36,7 @@ const getCategories = async (req: any, res: any) => {
 const searchCategories = async (req: any, res: any) => {
   try {
     const { search } = req.query;
-    const query = search ? { label: { $regex: search, $options: "i" } } : {};
+    const query = search ? { name: { $regex: search, $options: "i" } } : {};
 
     const categoryData = await CategoryModel.find(query).limit(5);
 
@@ -48,9 +48,9 @@ const searchCategories = async (req: any, res: any) => {
       });
     }
 
-    const dataSearch = categoryData.map((supplier) => ({
-      value: supplier.supplierCode,
-      label: `${supplier.supplierCode} - ${supplier.supplierName}`,
+    const dataSearch = categoryData.map((category) => ({
+      value: category._id,
+      label: `${category.name} - ${category.skuSupplier}`,
     }));
 
     return res.status(200).json({
