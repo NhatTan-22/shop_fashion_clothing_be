@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAccessToken = exports.createAdminUser = void 0;
+exports.getRefreshToken = exports.getAccessToken = exports.createAdminUser = void 0;
 // Libs
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -49,10 +49,17 @@ const createAdminUser = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.createAdminUser = createAdminUser;
 // Handle Get AccessToken
 const getAccessToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const accessToken = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: "10h",
+    const accessToken = jsonwebtoken_1.default.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "3h",
     });
     return accessToken;
 });
 exports.getAccessToken = getAccessToken;
+const getRefreshToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const refreshToken = jsonwebtoken_1.default.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: "1y",
+    });
+    return refreshToken;
+});
+exports.getRefreshToken = getRefreshToken;
 //# sourceMappingURL=helper.js.map

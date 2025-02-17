@@ -39,10 +39,10 @@ const addProduct = async (req: any, res: any) => {
     const body: IProduct = req.body;
 
     const isProductCode = await ProductModel.find({
-      productCode: body.productCode,
+      sku: body.sku,
     });
 
-    if (!isProductCode) {
+    if (isProductCode) {
       return res.status(400).json({
         code: 1011,
         message: MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
@@ -54,7 +54,7 @@ const addProduct = async (req: any, res: any) => {
       supplierImage: req.file.path,
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       code: 1010,
       message: MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
       data: newSupplier,

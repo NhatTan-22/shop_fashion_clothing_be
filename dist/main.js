@@ -44,7 +44,9 @@ app
         tkAdmin: `${admin}`,
     });
 }))
-    .on("error", (err) => {
-    console.error("Error occurred while starting the server:", err);
+    .on("error", (err, req, res) => {
+    res
+        .status(500)
+        .json({ message: `Error occurred while starting the server: ${err}` });
 });
 //# sourceMappingURL=main.js.map

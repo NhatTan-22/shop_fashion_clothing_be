@@ -12,26 +12,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addSupplier = exports.getSuppliers = void 0;
+exports.deleteSupplier = exports.searchSuppliers = exports.addSupplier = exports.getSuppliers = void 0;
 const SuppliersModel_1 = __importDefault(require("../models/SuppliersModel"));
 const enum_1 = require("~/utils/constants/enum");
+// [GET] /select
+const searchSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { search } = req.query;
+        const query = search ? { sku: { $regex: search, $options: "i" } } : {};
+        const supplierData = yield SuppliersModel_1.default.find(query).limit(5);
+        if (!supplierData.length) {
+            return res.status(404).json({
+                code: 1014,
+                message: "Not found category.",
+                data: [],
+            });
+        }
+        const dataSearch = supplierData.map((supplier) => ({
+            value: supplier.sku,
+            label: `${supplier.sku} - ${supplier.name}`,
+        }));
+        return res.status(200).json({
+            code: 1015,
+            message: "Search success.",
+            data: dataSearch,
+        });
+    }
+    catch (error) {
+        return res.status(404).json({
+            code: 1013,
+            message: error.message,
+        });
+    }
+});
+exports.searchSuppliers = searchSuppliers;
 // [GET] /suppliers
 const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { search, currentPage, limitPage } = req.query;
-        if (search) {
-            const query = { supplierCode: { $regex: search, $options: "i" } };
-            const supplierData = yield SuppliersModel_1.default.find(query).limit(5);
-            const dataSearch = supplierData.map((supplier) => ({
-                value: supplier.supplierCode,
-                label: `${supplier.supplierCode} - ${supplier.supplierName}`,
-            }));
-            return res.status(200).json({
-                code: 1010,
-                message: "Tìm kiếm thành công",
-                data: dataSearch,
-            });
-        }
+        const { currentPage, limitPage } = req.query;
         const skip = (currentPage - 1) * limitPage;
         const supplierLength = yield SuppliersModel_1.default.countDocuments();
         const supplierData = yield SuppliersModel_1.default.find({})
@@ -50,7 +68,7 @@ const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        res.status(404).json({
+        return res.status(404).json({
             code: 1013,
             message: error.message,
         });
@@ -62,30 +80,50 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const body = req.body;
         const isSupplierCode = yield SuppliersModel_1.default.find({
-            supplierCode: body.supplierCode,
+            sku: body.sku,
         });
         if (!isSupplierCode) {
-            return res.status(400).json({
+            return res.status(404).json({
                 code: 1011,
                 message: enum_1.MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
             });
         }
-        if (typeof body.isTaking === "string") {
-            body.isTaking = JSON.parse(body.isTaking);
+        if (typeof body.restockStatus === "string") {
+            body.restockStatus = JSON.parse(body.restockStatus);
         }
-        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { isTaking: [0], supplierImage: req.file.path }));
-        return res.status(200).json({
+        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { sku: body.sku.toUpperCase(), isTaking: [0], supplierImage: req.file.path }));
+        return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
             data: newSupplier,
         });
     }
     catch (error) {
-        res.status(404).json({
+        return res.status(404).json({
             code: 1013,
             message: error.message,
         });
     }
 });
 exports.addSupplier = addSupplier;
+// [DELETE] /:_id/delete
+const deleteSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { _id: idSupplier } = req.params;
+        if (idSupplier) {
+            yield SuppliersModel_1.default.deleteOne({ _id: idSupplier });
+            return res.status(200).json({
+                code: 1010,
+                message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_DELETE_SUPPLIER,
+            });
+        }
+    }
+    catch (error) {
+        return res.status(404).json({
+            code: 1013,
+            message: error.message,
+        });
+    }
+});
+exports.deleteSupplier = deleteSupplier;
 //# sourceMappingURL=supplierController.js.map

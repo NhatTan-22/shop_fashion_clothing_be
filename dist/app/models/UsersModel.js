@@ -38,11 +38,11 @@ const UserSchema = new mongoose_1.Schema({
     },
     phone: {
         type: String,
-        required: true,
     },
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     password: {
         type: String,
@@ -55,8 +55,10 @@ const UserSchema = new mongoose_1.Schema({
     role: {
         type: Number,
         default: enum_1.ROLE_ENUM.USER,
+        enum: [0, 1],
     },
+    refreshToken: { type: String },
 }, { timestamps: true });
-const UserModel = mongoose_1.default.models.User || mongoose_1.default.model("User", UserSchema);
+const UserModel = mongoose_1.default.models.User || mongoose_1.default.model("Users", UserSchema);
 exports.default = UserModel;
 //# sourceMappingURL=UsersModel.js.map

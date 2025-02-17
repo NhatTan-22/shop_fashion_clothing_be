@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
+exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
 var ROLE_ENUM;
 (function (ROLE_ENUM) {
     ROLE_ENUM[ROLE_ENUM["ADMIN"] = 0] = "ADMIN";
@@ -21,17 +21,29 @@ var MESSAGE_ENUM;
     MESSAGE_ENUM["ERROR_LOGIN_FAIL"] = "Login failed! Please check Email/Password and login again.";
     MESSAGE_ENUM["ERROR_TOKEN_ACCESS_DENIED"] = "Access denied";
     MESSAGE_ENUM["ERROR_TOKEN_INVALID_TOKEN"] = "Invalid Token";
+    MESSAGE_ENUM["ERROR_TOKEN_EXPIRED"] = "Token expired";
 })(MESSAGE_ENUM || (exports.MESSAGE_ENUM = MESSAGE_ENUM = {}));
 var MESSAGE_SUPPLIER_ENUM;
 (function (MESSAGE_SUPPLIER_ENUM) {
     // SUCCESS
     MESSAGE_SUPPLIER_ENUM["SUCCESS_CREATE_SUPPLIER"] = "Create supplier successfully.";
+    MESSAGE_SUPPLIER_ENUM["SUCCESS_DELETE_SUPPLIER"] = "Delete supplier successfully.";
     MESSAGE_SUPPLIER_ENUM["SUCCESS_GET_SUPPLIER"] = "GET list supplier.";
     // WARNING
     MESSAGE_SUPPLIER_ENUM["WARNING_SUPPLIER_CODE"] = "Supplier already exists.";
     // ERROR
     // ERROR_SUPPLIER = "Email/Password does not exist.",
 })(MESSAGE_SUPPLIER_ENUM || (exports.MESSAGE_SUPPLIER_ENUM = MESSAGE_SUPPLIER_ENUM = {}));
+var MESSAGE_CATEGORY_ENUM;
+(function (MESSAGE_CATEGORY_ENUM) {
+    // SUCCESS
+    MESSAGE_CATEGORY_ENUM["SUCCESS_CREATE_CATEGORY"] = "Create category successfully.";
+    MESSAGE_CATEGORY_ENUM["SUCCESS_GET_CATEGORY"] = "GET list category.";
+    // WARNING
+    MESSAGE_CATEGORY_ENUM["WARNING_CATEGORY_CODE"] = "Category already exists.";
+    // ERROR
+    // ERROR_CATEGORY = "Email/Password does not exist.",
+})(MESSAGE_CATEGORY_ENUM || (exports.MESSAGE_CATEGORY_ENUM = MESSAGE_CATEGORY_ENUM = {}));
 var MESSAGE_PRODUCT_ENUM;
 (function (MESSAGE_PRODUCT_ENUM) {
     // SUCCESS

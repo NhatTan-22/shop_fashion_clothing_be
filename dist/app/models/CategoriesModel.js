@@ -25,9 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const CategoryScheme = new mongoose_1.Schema({
-    isChecked: { type: Boolean, default: false },
-    name: { type: String },
+    name: { type: String, required: true },
+    description: { type: String },
+    skuSupplier: { type: mongoose_1.default.Schema.Types.String, ref: "Suppliers" },
 }, { timestamps: true });
-const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Category", CategoryScheme);
+const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Categories", CategoryScheme);
 exports.default = CategoryModel;
 //# sourceMappingURL=CategoriesModel.js.map

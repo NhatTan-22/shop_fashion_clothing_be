@@ -12,7 +12,9 @@ const diskStorage_1 = __importDefault(require("~/storage/diskStorage"));
 const router = (0, express_1.Router)();
 router.use(verifyToken_1.default);
 router.use((0, authorization_1.default)([0]));
-router.post("/suppliers/new-add", diskStorage_1.default, supplierController_1.addSupplier);
+router.post("/new-add", diskStorage_1.default, supplierController_1.addSupplier);
+router.delete("/:_id/delete", supplierController_1.deleteSupplier);
+router.get("/select", supplierController_1.searchSuppliers);
 router.get("/", supplierController_1.getSuppliers);
 exports.default = router;
 //# sourceMappingURL=supplierRouter.js.map

@@ -45,9 +45,25 @@ export const createAdminUser = async () => {
 
 // Handle Get AccessToken
 export const getAccessToken = async (payload: IPayloadAccessToken) => {
-  const accessToken = jwt.sign(payload, process.env.SECRET_KEY as string, {
-    expiresIn: "10h",
-  });
+  const accessToken = jwt.sign(
+    payload,
+    process.env.ACCESS_TOKEN_SECRET as string,
+    {
+      expiresIn: "3h",
+    }
+  );
 
   return accessToken;
+};
+
+export const getRefreshToken = async (payload: IPayloadAccessToken) => {
+  const refreshToken = jwt.sign(
+    payload,
+    process.env.REFRESH_TOKEN_SECRET as string,
+    {
+      expiresIn: "1y",
+    }
+  );
+
+  return refreshToken;
 };

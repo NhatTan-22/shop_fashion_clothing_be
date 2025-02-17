@@ -19,16 +19,28 @@ export enum MESSAGE_ENUM {
 
   ERROR_TOKEN_ACCESS_DENIED = "Access denied",
   ERROR_TOKEN_INVALID_TOKEN = "Invalid Token",
+  ERROR_TOKEN_EXPIRED = "Token expired",
 }
 
 export enum MESSAGE_SUPPLIER_ENUM {
   // SUCCESS
   SUCCESS_CREATE_SUPPLIER = "Create supplier successfully.",
+  SUCCESS_DELETE_SUPPLIER = "Delete supplier successfully.",
   SUCCESS_GET_SUPPLIER = "GET list supplier.",
   // WARNING
   WARNING_SUPPLIER_CODE = "Supplier already exists.",
   // ERROR
   // ERROR_SUPPLIER = "Email/Password does not exist.",
+}
+
+export enum MESSAGE_CATEGORY_ENUM {
+  // SUCCESS
+  SUCCESS_CREATE_CATEGORY = "Create category successfully.",
+  SUCCESS_GET_CATEGORY = "GET list category.",
+  // WARNING
+  WARNING_CATEGORY_CODE = "Category already exists.",
+  // ERROR
+  // ERROR_CATEGORY = "Email/Password does not exist.",
 }
 
 export enum MESSAGE_PRODUCT_ENUM {
