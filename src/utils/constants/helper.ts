@@ -70,7 +70,14 @@ export const getRefreshToken = async (payload: IPayloadAccessToken) => {
 };
 
 // Price calculation function after applying discount code
-export const applyDiscount = (price, discount) => {
+export const applyDiscount = (
+  price: number,
+  discount: {
+    discountType: "PERCENTAGE" | "FIXED";
+    value: number;
+    maxDiscount?: number;
+  }
+) => {
   let finalPrice = price;
 
   if (discount.discountType === "PERCENTAGE") {
@@ -84,4 +91,11 @@ export const applyDiscount = (price, discount) => {
   }
 
   return Math.max(finalPrice, 0);
+};
+
+// Transaction Code Generation Function
+export const generateTransactionId = (transactionType: string): string => {
+  const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const timestamp = Date.now();
+  return `${transactionType}-${timestamp}-${randomPart}`;
 };
