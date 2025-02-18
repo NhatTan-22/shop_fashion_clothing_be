@@ -1,16 +1,16 @@
 import { Document, ObjectId } from "mongoose";
 
-export interface IReview extends Document {
+export interface IShipping extends Document {
   _id: ObjectId;
-  orderId: ObjectId; // Liên kết với đơn hàng
-  userId: ObjectId; // Liên kết với người dùng
+  orderId: ObjectId;
+  userId: ObjectId;
   address: String;
   city: String;
   country: String;
   zipCode: String;
   phone: String;
-  status: String; // "pending" | "in transit" | "delivered"
-  estimatedDelivery: Date; // Ngày dự kiến giao hàng
+  status: String;
+  estimatedDelivery: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }

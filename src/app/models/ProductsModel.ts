@@ -31,7 +31,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
     status: {
       type: String,
       enum: ["ACTIVE", "DISCONTINUED"],
-      default: "active",
+      default: "ACTIVE",
     },
     availability: {
       type: String,

@@ -9,11 +9,11 @@ export interface ISupplier extends Document {
   email: String;
   phone: String;
   address: String;
-  categories: [ObjectId]; // Các danh mục mà nhà cung cấp cung cấp
-  orderQuantity: Number; // Số lượng nhập về
+  categories: [ObjectId];
+  orderQuantity: Number;
   restockStatus: String; // "pending" | "shipped" | "received"
-  expectedArrivalDate: Date; // Ngày dự kiến sản phẩm đến
-  lastRestockDate?: Date; // Ngày nhập hàng gần nhất
+  expectedArrivalDate: Date;
+  lastRestockDate?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }

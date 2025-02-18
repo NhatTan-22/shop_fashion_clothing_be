@@ -24,28 +24,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const SupplierSchema = new mongoose_1.Schema({
-    sku: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    contactPerson: { type: String, required: true },
-    image: {
+const PaymentSchema = new mongoose_1.Schema({
+    orderId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Orders", required: true },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Users", required: true },
+    paymentMethod: {
         type: String,
-        default: "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
+        enum: ["CREDIT_CARD", "PAYPAL", "COD"],
+        required: true,
     },
-    phone: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    address: { type: String, required: true },
-    categories: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Categories" }],
-    orderQuantity: { type: Number, required: true, default: 0, min: 0 },
-    expectedArrivalDate: { type: Date, required: true },
-    restockStatus: {
-        type: [String],
-        default: ["PENDING"],
-        enum: ["PENDING", "SHIPPED", "RECEIVED"],
+    transactionId: { type: String, default: null },
+    amount: { type: Number, required: true },
+    status: {
+        type: String,
+        enum: ["SUCCESS", "FAILED", "PENDING"],
+        default: "PENDING",
     },
-}, {
-    timestamps: true,
-});
-const SupplierModel = mongoose_1.default.model("Suppliers", SupplierSchema);
-exports.default = SupplierModel;
-//# sourceMappingURL=SuppliersModel.js.map
+}, { timestamps: true });
+const PaymentModel = mongoose_1.default.model("Payments", PaymentSchema);
+exports.default = PaymentModel;
+//# sourceMappingURL=PaymentsModel.js.map
