@@ -53,7 +53,7 @@ const ProductSchema = new mongoose_1.Schema({
     status: {
         type: String,
         enum: ["ACTIVE", "DISCONTINUED"],
-        default: "active",
+        default: "ACTIVE",
     },
     availability: {
         type: String,
