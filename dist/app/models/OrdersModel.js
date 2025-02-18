@@ -24,28 +24,35 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const SupplierSchema = new mongoose_1.Schema({
-    sku: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    contactPerson: { type: String, required: true },
-    image: {
+const OrderSchema = new mongoose_1.Schema({
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Users" },
+    products: [
+        {
+            productId: {
+                type: mongoose_1.Schema.Types.ObjectId,
+                ref: "Products",
+                required: true,
+            },
+            quantity: { type: Number, required: true, min: 1 },
+            price: { type: Number, required: true },
+        },
+    ],
+    totalPrice: { type: Number, required: true },
+    discount: { type: mongoose_1.Schema.Types.ObjectId, ref: "Coupons" },
+    status: {
         type: String,
-        default: "https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg",
+        enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELED"],
+        default: "PENDING",
     },
-    phone: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    address: { type: String, required: true },
-    categories: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Categories" }],
-    orderQuantity: { type: Number, required: true, default: 0, min: 0 },
-    expectedArrivalDate: { type: Date, required: true },
-    restockStatus: {
-        type: [String],
-        default: ["PENDING"],
-        enum: ["PENDING", "SHIPPED", "RECEIVED"],
+    paymentStatus: {
+        type: String,
+        enum: ["PAID", "UNPAID"],
+        default: "UNPAID",
     },
+    shippingId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Shippings" },
 }, {
     timestamps: true,
 });
-const SupplierModel = mongoose_1.default.model("Suppliers", SupplierSchema);
-exports.default = SupplierModel;
-//# sourceMappingURL=SuppliersModel.js.map
+const OrderModel = mongoose_1.default.model("Orders", OrderSchema);
+exports.default = OrderModel;
+//# sourceMappingURL=OrdersModel.js.map

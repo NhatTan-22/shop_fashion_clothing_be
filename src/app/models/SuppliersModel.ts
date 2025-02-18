@@ -18,8 +18,8 @@ const SupplierSchema: Schema<ISupplier> = new Schema(
     orderQuantity: { type: Number, required: true, default: 0, min: 0 },
     expectedArrivalDate: { type: Date, required: true },
     restockStatus: {
-      type: [Number],
-      default: [0],
+      type: [String],
+      default: ["PENDING"],
       enum: ["PENDING", "SHIPPED", "RECEIVED"],
     },
   },
