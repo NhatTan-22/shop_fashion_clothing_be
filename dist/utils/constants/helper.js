@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyDiscount = exports.getRefreshToken = exports.getAccessToken = exports.createAdminUser = void 0;
+exports.generateTransactionId = exports.applyDiscount = exports.getRefreshToken = exports.getAccessToken = exports.createAdminUser = void 0;
 // Libs
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -79,4 +79,11 @@ const applyDiscount = (price, discount) => {
     return Math.max(finalPrice, 0);
 };
 exports.applyDiscount = applyDiscount;
+// Transaction Code Generation Function
+const generateTransactionId = (transactionType) => {
+    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const timestamp = Date.now();
+    return `${transactionType}-${timestamp}-${randomPart}`;
+};
+exports.generateTransactionId = generateTransactionId;
 //# sourceMappingURL=helper.js.map
