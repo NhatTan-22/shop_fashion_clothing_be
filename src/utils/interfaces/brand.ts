@@ -3,9 +3,10 @@ import { Document, ObjectId } from "mongoose";
 export interface IBrand extends Document {
   _id: ObjectId;
   name: String;
-  logo: String; // URL ảnh logo
+  logo: String;
   description: String;
-  country: String; // Quốc gia thương hiệu
+  country: String;
+  website: String;
   createdAt?: Date;
   updatedAt?: Date;
 }
