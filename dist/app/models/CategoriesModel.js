@@ -24,11 +24,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const CategoryScheme = new mongoose_1.Schema({
+    logo: { type: String },
+    slug: { type: String, unique: true, lowercase: true },
     name: { type: String, required: true },
     description: { type: String },
-    skuSupplier: { type: mongoose_1.Schema.Types.ObjectId, ref: "Suppliers" },
 }, { timestamps: true });
+(0, slugMiddleware_1.generateSlug)(CategoryScheme);
 const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Categories", CategoryScheme);
 exports.default = CategoryModel;
 //# sourceMappingURL=CategoriesModel.js.map

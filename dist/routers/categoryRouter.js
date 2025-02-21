@@ -11,6 +11,7 @@ const router = (0, express_1.Router)();
 router.use(verifyToken_1.default);
 router.use((0, authorization_1.default)([0]));
 router.get("/select", categoryController_1.searchCategories);
+router.get("/", categoryController_1.getCategories);
 router.post("/add-new", categoryController_1.addCategory);
 router.use((0, authorization_1.default)([0, 1]));
 router.get("/", categoryController_1.getCategories);

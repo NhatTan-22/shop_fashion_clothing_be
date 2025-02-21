@@ -24,6 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const ProductSchema = new mongoose_1.Schema({
     sku: { type: String, required: true, unique: true },
     name: { type: String, required: true },
@@ -40,15 +41,15 @@ const ProductSchema = new mongoose_1.Schema({
         required: true,
     },
     stock: { type: Number, required: true },
-    brand: { type: mongoose_1.Schema.Types.ObjectId, ref: "Brands" },
+    // brand: { type: Schema.Types.ObjectId, ref: "Brands" },
     supplier: { type: mongoose_1.Schema.Types.ObjectId, ref: "Suppliers" },
     sizes: { type: [String], required: true },
     colors: { type: [String], required: true },
-    ratings: { type: Number, min: 0, max: 5 },
+    ratings: { type: Number, min: 0, max: 5, default: 5 },
     gender: {
-        type: [String],
-        enum: ["MALE", "FEMALE", "BOTH"],
-        default: ["BOTH"],
+        type: String,
+        enum: ["MALE", "FEMALE", "UNISEX"],
+        default: "UNISEX",
     },
     status: {
         type: String,
@@ -60,7 +61,9 @@ const ProductSchema = new mongoose_1.Schema({
         enum: ["IN_STOCK", "OUT_OF_STOCK"],
         default: "IN_STOCK",
     },
+    slug: { type: String, unique: true, lowercase: true },
 }, { timestamps: true });
+(0, slugMiddleware_1.generateSlug)(ProductSchema);
 const ProductModel = mongoose_1.default.model("Products", ProductSchema);
 exports.default = ProductModel;
 //# sourceMappingURL=ProductsModel.js.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
+exports.MESSAGE_BRAND_ENUM = exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
 var ROLE_ENUM;
 (function (ROLE_ENUM) {
     ROLE_ENUM[ROLE_ENUM["ADMIN"] = 0] = "ADMIN";
@@ -33,6 +33,7 @@ var MESSAGE_SUPPLIER_ENUM;
     MESSAGE_SUPPLIER_ENUM["WARNING_SUPPLIER_CODE"] = "Supplier already exists.";
     // ERROR
     // ERROR_SUPPLIER = "Email/Password does not exist.",
+    MESSAGE_SUPPLIER_ENUM["ERROR_SUPPLIER"] = "Unknown error.";
 })(MESSAGE_SUPPLIER_ENUM || (exports.MESSAGE_SUPPLIER_ENUM = MESSAGE_SUPPLIER_ENUM = {}));
 var MESSAGE_CATEGORY_ENUM;
 (function (MESSAGE_CATEGORY_ENUM) {
@@ -42,7 +43,7 @@ var MESSAGE_CATEGORY_ENUM;
     // WARNING
     MESSAGE_CATEGORY_ENUM["WARNING_CATEGORY_CODE"] = "Category already exists.";
     // ERROR
-    // ERROR_CATEGORY = "Email/Password does not exist.",
+    MESSAGE_CATEGORY_ENUM["ERROR_CATEGORY"] = "Unknown error.";
 })(MESSAGE_CATEGORY_ENUM || (exports.MESSAGE_CATEGORY_ENUM = MESSAGE_CATEGORY_ENUM = {}));
 var MESSAGE_PRODUCT_ENUM;
 (function (MESSAGE_PRODUCT_ENUM) {
@@ -50,8 +51,20 @@ var MESSAGE_PRODUCT_ENUM;
     MESSAGE_PRODUCT_ENUM["SUCCESS_CREATE_PRODUCT"] = "Create product successfully.";
     MESSAGE_PRODUCT_ENUM["SUCCESS_GET_PRODUCT"] = "GET list product.";
     // WARNING
-    MESSAGE_PRODUCT_ENUM["WARNING_PRODUCT_CODE"] = "Product already exists.";
+    // WARNING_PRODUCT_CODE = "Product already exists.",
     // ERROR
     // ERROR_PRODUCT = "Email/Password does not exist.",
+    MESSAGE_PRODUCT_ENUM["ERROR_PRODUCT"] = "Unknown error.";
 })(MESSAGE_PRODUCT_ENUM || (exports.MESSAGE_PRODUCT_ENUM = MESSAGE_PRODUCT_ENUM = {}));
+var MESSAGE_BRAND_ENUM;
+(function (MESSAGE_BRAND_ENUM) {
+    // SUCCESS
+    MESSAGE_BRAND_ENUM["SUCCESS_GET_BRAND"] = "GET list brand.";
+    MESSAGE_BRAND_ENUM["SUCCESS_CREATE_BRAND"] = "Create brand successfully.";
+    MESSAGE_BRAND_ENUM["SUCCESS_SELECT_BRAND"] = "Create select successfully.";
+    // WARNING
+    MESSAGE_BRAND_ENUM["WARNING_BRAND_CREATE"] = "Brand already exists.";
+    // ERROR
+    MESSAGE_BRAND_ENUM["ERROR_BRAND"] = "Unknown error.";
+})(MESSAGE_BRAND_ENUM || (exports.MESSAGE_BRAND_ENUM = MESSAGE_BRAND_ENUM = {}));
 //# sourceMappingURL=enum.js.map

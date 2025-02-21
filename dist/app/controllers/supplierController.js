@@ -15,22 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSupplier = exports.searchSuppliers = exports.addSupplier = exports.getSuppliers = void 0;
 const SuppliersModel_1 = __importDefault(require("../models/SuppliersModel"));
 const enum_1 = require("~/utils/constants/enum");
+const helper_1 = require("~/utils/constants/helper");
 // [GET] /select
 const searchSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { search } = req.query;
         const query = search ? { sku: { $regex: search, $options: "i" } } : {};
         const supplierData = yield SuppliersModel_1.default.find(query).limit(5);
-        if (!supplierData.length) {
-            return res.status(404).json({
-                code: 1014,
-                message: "Not found category.",
-                data: [],
-            });
-        }
         const dataSearch = supplierData.map((supplier) => ({
-            value: supplier.sku,
-            label: `${supplier.sku} - ${supplier.name}`,
+            value: supplier._id,
+            label: `${supplier.sku} - ${supplier.supplierName}`,
         }));
         return res.status(200).json({
             code: 1015,
@@ -79,19 +73,8 @@ exports.getSuppliers = getSuppliers;
 const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        const isSupplierCode = yield SuppliersModel_1.default.find({
-            sku: body.sku,
-        });
-        if (!isSupplierCode) {
-            return res.status(404).json({
-                code: 1011,
-                message: enum_1.MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
-            });
-        }
-        if (typeof body.restockStatus === "string") {
-            body.restockStatus = JSON.parse(body.restockStatus);
-        }
-        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { sku: body.sku.toUpperCase(), isTaking: [0], supplierImage: req.file.path }));
+        const productSku = (0, helper_1.generateTransactionId)("SUP");
+        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { sku: productSku, image: req.file.path }));
         return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,

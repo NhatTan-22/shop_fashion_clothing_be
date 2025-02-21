@@ -2,14 +2,14 @@ import { Document, ObjectId } from "mongoose";
 
 export interface ICoupon extends Document {
   _id: ObjectId;
-  code: String;
-  discountType: String;
-  value: Number;
-  minOrderValue: Number;
-  maxDiscount: Number;
-  usedCount: Number;
+  code: string;
+  discountType: string;
+  value: number;
+  minOrderValue: number;
+  maxDiscount: number;
+  usedCount: number;
   expiryDate: Date;
-  status: String;
+  status: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

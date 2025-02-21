@@ -15,21 +15,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.addProduct = exports.getProducts = void 0;
 const enum_1 = require("~/utils/constants/enum");
 const ProductsModel_1 = __importDefault(require("../models/ProductsModel"));
+const helper_1 = require("~/utils/constants/helper");
 // [GET] /products
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { currentPage, limitPage } = req.body;
+        const { currentPage, limitPage } = req.query;
         const skip = (currentPage - 1) * limitPage;
-        const inventoryLength = yield ProductsModel_1.default.countDocuments();
-        const inventoryData = yield ProductsModel_1.default.find({})
+        const productLength = yield ProductsModel_1.default.countDocuments();
+        const productData = yield ProductsModel_1.default.find({})
             .skip(skip)
-            .limit(limitPage);
+            .limit(limitPage)
+            .populate({
+            path: "category",
+            select: "name",
+        })
+            .populate({
+            path: "supplier",
+            select: "supplierName",
+        });
+        // .populate({
+        //   path: "brand",
+        //   select: "name",
+        // });
         res.status(200).json({
             code: 1010,
             data: {
-                data: inventoryData,
+                data: productData,
                 pagination: {
-                    lengthPage: inventoryLength,
+                    lengthPage: productLength,
                     currentPage: Number(currentPage),
                 },
             },
@@ -37,7 +50,7 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -48,24 +61,23 @@ exports.getProducts = getProducts;
 const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        const isProductCode = yield ProductsModel_1.default.find({
-            sku: body.sku,
-        });
-        if (isProductCode) {
-            return res.status(400).json({
-                code: 1011,
-                message: enum_1.MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
-            });
+        const parsedBody = Object.assign(Object.assign({}, body), { pricing: typeof body.pricing === "string"
+                ? JSON.parse(body.pricing)
+                : body.pricing, sizes: typeof body.sizes === "string" ? JSON.parse(body.sizes) : body.sizes, colors: typeof body.colors === "string" ? JSON.parse(body.colors) : body.colors, stock: Number(body.stock) });
+        let images = [];
+        if (req.files && Array.isArray(req.files)) {
+            images = req.files.map((file) => file.path);
         }
-        const newSupplier = yield ProductsModel_1.default.create(Object.assign(Object.assign({}, body), { supplierImage: req.file.path }));
+        const productSku = (0, helper_1.generateTransactionId)("PROD");
+        const newProduct = yield ProductsModel_1.default.create(Object.assign(Object.assign({}, parsedBody), { sku: productSku, images: images }));
         return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
-            data: newSupplier,
+            data: newProduct,
         });
     }
     catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -89,7 +101,7 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             code: 1013,
             message: error.message,
         });

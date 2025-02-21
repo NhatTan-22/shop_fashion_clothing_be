@@ -2,25 +2,26 @@ import { Document, ObjectId } from "mongoose";
 
 export interface IProduct extends Document {
   _id: ObjectId;
-  sku: String;
-  name: String;
-  description: String;
+  sku: object;
+  name: object;
+  description: object;
   pricing: {
-    price: Number;
-    promotionPrice: Number;
-    discountPercentage: Number;
+    price: number;
+    promotionPrice: number;
+    discountPercentage: number;
   };
-  stock: Number;
+  stock: number;
   category: ObjectId;
-  brand: ObjectId;
+  brand?: ObjectId;
   supplier: ObjectId;
-  sizes: [String];
-  colors: [String];
-  images: [String];
-  ratings: Number;
-  gender?: [String];
-  status: String;
-  availability: String;
+  sizes: [object];
+  colors: [object];
+  images: [object];
+  ratings?: number;
+  gender?: object;
+  status: object;
+  availability: object;
+  slug: object;
   createdAt?: Date;
   updatedAt?: Date;
 }
