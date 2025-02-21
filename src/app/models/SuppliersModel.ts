@@ -1,10 +1,11 @@
 import mongoose, { Model, Schema } from "mongoose";
+import { generateSlug } from "~/middleware/slugMiddleware";
 import { ISupplier } from "~/utils/interfaces/supplier";
 
 const SupplierSchema: Schema<ISupplier> = new Schema(
   {
     sku: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
+    supplierName: { type: String, required: true },
     contactPerson: { type: String, required: true },
     image: {
       type: String,
@@ -18,15 +19,18 @@ const SupplierSchema: Schema<ISupplier> = new Schema(
     orderQuantity: { type: Number, required: true, default: 0, min: 0 },
     expectedArrivalDate: { type: Date, required: true },
     restockStatus: {
-      type: [String],
-      default: ["PENDING"],
+      type: String,
+      default: "PENDING",
       enum: ["PENDING", "SHIPPED", "RECEIVED"],
     },
+    slug: { type: String, unique: true, lowercase: true },
   },
   {
     timestamps: true,
   }
 );
+
+generateSlug(SupplierSchema);
 
 const SupplierModel: Model<ISupplier> = mongoose.model<ISupplier>(
   "Suppliers",

@@ -6,14 +6,14 @@ export interface IOrder extends Document {
   products: [
     {
       productId: ObjectId;
-      quantity: Number;
-      price: Number;
+      quantity: number;
+      price: number;
     }
   ];
-  totalPrice: Number;
+  totalPrice: number;
   discount: ObjectId;
-  status: String;
-  paymentStatus: String;
+  status: string;
+  paymentStatus: string;
   shippingId: ObjectId;
   createdAt?: Date;
   updatedAt?: Date;

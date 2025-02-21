@@ -4,12 +4,12 @@ export interface IShipping extends Document {
   _id: ObjectId;
   orderId: ObjectId;
   userId: ObjectId;
-  address: String;
-  city: String;
-  country: String;
-  zipCode: String;
-  phone: String;
-  status: String;
+  address: string;
+  city: string;
+  country: string;
+  zipCode: string;
+  phone: string;
+  status: string;
   estimatedDelivery: Date;
   createdAt?: Date;
   updatedAt?: Date;

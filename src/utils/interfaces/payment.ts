@@ -4,10 +4,10 @@ export interface IPayment extends Document {
   _id: ObjectId;
   orderId: ObjectId;
   userId: ObjectId; 
-  paymentMethod: String; 
-  transactionId: String;
-  amount: Number;
-  status: String;
+  paymentMethod: string; 
+  transactionId: string;
+  amount: number;
+  status: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

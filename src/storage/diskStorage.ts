@@ -17,4 +17,6 @@ const upload = multer({ storage: storage });
 
 const uploadImage = upload.single("supplierImage");
 
-export default uploadImage;
+const uploadMultipleImages = upload.array("images", 5);
+
+export { uploadImage, uploadMultipleImages };

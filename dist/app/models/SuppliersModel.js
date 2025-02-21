@@ -24,9 +24,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const SupplierSchema = new mongoose_1.Schema({
     sku: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
+    supplierName: { type: String, required: true },
     contactPerson: { type: String, required: true },
     image: {
         type: String,
@@ -39,13 +40,15 @@ const SupplierSchema = new mongoose_1.Schema({
     orderQuantity: { type: Number, required: true, default: 0, min: 0 },
     expectedArrivalDate: { type: Date, required: true },
     restockStatus: {
-        type: [String],
-        default: ["PENDING"],
+        type: String,
+        default: "PENDING",
         enum: ["PENDING", "SHIPPED", "RECEIVED"],
     },
+    slug: { type: String, unique: true, lowercase: true },
 }, {
     timestamps: true,
 });
+(0, slugMiddleware_1.generateSlug)(SupplierSchema);
 const SupplierModel = mongoose_1.default.model("Suppliers", SupplierSchema);
 exports.default = SupplierModel;
 //# sourceMappingURL=SuppliersModel.js.map

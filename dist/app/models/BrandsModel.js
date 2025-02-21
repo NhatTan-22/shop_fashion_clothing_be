@@ -24,15 +24,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const BrandSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     logo: { type: String, required: true },
+    slug: { type: String, unique: true, lowercase: true },
     description: { type: String, required: true },
     country: { type: String, required: true },
-    website: { type: String, default: '' },
+    website: { type: String, default: "" },
 }, {
     timestamps: true,
 });
+(0, slugMiddleware_1.generateSlug)(BrandSchema);
 const BrandModel = mongoose_1.default.model("Brands", BrandSchema);
 exports.default = BrandModel;
 //# sourceMappingURL=BrandsModel.js.map

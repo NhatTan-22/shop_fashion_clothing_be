@@ -81,9 +81,12 @@ const applyDiscount = (price, discount) => {
 exports.applyDiscount = applyDiscount;
 // Transaction Code Generation Function
 const generateTransactionId = (transactionType) => {
-    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const timestamp = Date.now();
-    return `${transactionType}-${timestamp}-${randomPart}`;
+    const uuid = crypto
+        .randomUUID()
+        .replace(/-/g, "")
+        .substring(0, 12)
+        .toUpperCase();
+    return `${transactionType}-${uuid}`;
 };
 exports.generateTransactionId = generateTransactionId;
 //# sourceMappingURL=helper.js.map

@@ -2,9 +2,10 @@ import { Document, ObjectId } from "mongoose";
 
 export interface ICategory extends Document {
   _id: ObjectId;
-  name: String;
-  skuSupplier: String;
-  description: String;
+  logo: string;
+  name: string;
+  slug: string;
+  description: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

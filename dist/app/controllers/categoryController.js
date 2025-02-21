@@ -37,7 +37,7 @@ const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        return res.status(404).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -50,16 +50,9 @@ const searchCategories = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const { search } = req.query;
         const query = search ? { name: { $regex: search, $options: "i" } } : {};
         const categoryData = yield CategoriesModel_1.default.find(query).limit(5);
-        if (!categoryData.length) {
-            return res.status(404).json({
-                code: 1014,
-                message: "Not found category.",
-                data: [],
-            });
-        }
         const dataSearch = categoryData.map((category) => ({
             value: category._id,
-            label: `${category.name} - ${category.skuSupplier}`,
+            label: `${category.name}`,
         }));
         return res.status(200).json({
             code: 1015,
@@ -68,7 +61,7 @@ const searchCategories = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        return res.status(404).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -88,17 +81,14 @@ const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 message: "Category already exists.",
             });
         }
-        const newCategory = yield CategoriesModel_1.default.create({
-            body,
-        });
+        yield CategoriesModel_1.default.create({ body });
         return res.status(201).json({
             code: 1010,
             message: "Create category successfully.",
-            data: newCategory,
         });
     }
     catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });

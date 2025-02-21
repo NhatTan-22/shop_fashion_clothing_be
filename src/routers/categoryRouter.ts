@@ -13,6 +13,7 @@ router.use(verifyToken);
 
 router.use(authorization([0]));
 router.get("/select", searchCategories);
+router.get("/", getCategories);
 
 router.post("/add-new", addCategory);
 

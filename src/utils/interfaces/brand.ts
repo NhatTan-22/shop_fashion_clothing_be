@@ -2,11 +2,12 @@ import { Document, ObjectId } from "mongoose";
 
 export interface IBrand extends Document {
   _id: ObjectId;
-  name: String;
-  logo: String;
-  description: String;
-  country: String;
-  website: String;
+  name: string;
+  logo: string;
+  slug: string;
+  description: string;
+  country: string;
+  website: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

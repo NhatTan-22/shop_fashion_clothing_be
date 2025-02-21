@@ -1,32 +1,45 @@
 import { MESSAGE_PRODUCT_ENUM } from "~/utils/constants/enum";
 import ProductModel from "../models/ProductsModel";
 import { IProduct } from "~/utils/interfaces/product";
+import { generateTransactionId } from "~/utils/constants/helper";
 
 // [GET] /products
 const getProducts = async (req: any, res: any) => {
   try {
-    const { currentPage, limitPage } = req.body;
+    const { currentPage, limitPage } = req.query;
 
     const skip = (currentPage - 1) * limitPage;
-    const inventoryLength = await ProductModel.countDocuments();
+    const productLength = await ProductModel.countDocuments();
 
-    const inventoryData = await ProductModel.find({})
+    const productData = await ProductModel.find({})
       .skip(skip)
-      .limit(limitPage);
+      .limit(limitPage)
+      .populate({
+        path: "category",
+        select: "name",
+      })
+      .populate({
+        path: "supplier",
+        select: "supplierName",
+      });
+    // .populate({
+    //   path: "brand",
+    //   select: "name",
+    // });
 
     res.status(200).json({
       code: 1010,
       data: {
-        data: inventoryData,
+        data: productData,
         pagination: {
-          lengthPage: inventoryLength,
+          lengthPage: productLength,
           currentPage: Number(currentPage),
         },
       },
       message: MESSAGE_PRODUCT_ENUM.SUCCESS_GET_PRODUCT,
     });
   } catch (error) {
-    res.status(404).json({
+    res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -38,29 +51,39 @@ const addProduct = async (req: any, res: any) => {
   try {
     const body: IProduct = req.body;
 
-    const isProductCode = await ProductModel.find({
-      sku: body.sku,
-    });
+    const parsedBody = {
+      ...body,
+      pricing:
+        typeof body.pricing === "string"
+          ? JSON.parse(body.pricing)
+          : body.pricing,
+      sizes:
+        typeof body.sizes === "string" ? JSON.parse(body.sizes) : body.sizes,
+      colors:
+        typeof body.colors === "string" ? JSON.parse(body.colors) : body.colors,
+      stock: Number(body.stock),
+    };
 
-    if (isProductCode) {
-      return res.status(400).json({
-        code: 1011,
-        message: MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
-      });
+    let images: string[] = [];
+    if (req.files && Array.isArray(req.files)) {
+      images = req.files.map((file: Express.Multer.File) => file.path);
     }
 
-    const newSupplier = await ProductModel.create({
-      ...body,
-      supplierImage: req.file.path,
+    const productSku = generateTransactionId("PROD");
+
+    const newProduct = await ProductModel.create({
+      ...parsedBody,
+      sku: productSku,
+      images: images,
     });
 
     return res.status(201).json({
       code: 1010,
       message: MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
-      data: newSupplier,
+      data: newProduct,
     });
   } catch (error) {
-    res.status(404).json({
+    res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -86,7 +109,7 @@ const deleteProduct = async (req: any, res: any) => {
       data: [],
     });
   } catch (error) {
-    res.status(404).json({
+    res.status(500).json({
       code: 1013,
       message: error.message,
     });

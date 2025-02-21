@@ -8,7 +8,7 @@ import {
 } from "~/app/controllers/supplierController";
 import authorization from "~/middleware/authorization";
 import verifyToken from "~/middleware/verifyToken";
-import uploadImage from "~/storage/diskStorage";
+import { uploadImage } from "~/storage/diskStorage";
 
 const router = Router();
 

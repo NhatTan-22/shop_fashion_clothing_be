@@ -25,7 +25,7 @@ const getCategories = async (req: any, res: any) => {
       },
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -40,17 +40,9 @@ const searchCategories = async (req: any, res: any) => {
 
     const categoryData = await CategoryModel.find(query).limit(5);
 
-    if (!categoryData.length) {
-      return res.status(404).json({
-        code: 1014,
-        message: "Not found category.",
-        data: [],
-      });
-    }
-
     const dataSearch = categoryData.map((category) => ({
       value: category._id,
-      label: `${category.name} - ${category.skuSupplier}`,
+      label: `${category.name}`,
     }));
 
     return res.status(200).json({
@@ -59,7 +51,7 @@ const searchCategories = async (req: any, res: any) => {
       data: dataSearch,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -81,17 +73,14 @@ const addCategory = async (req: any, res: any) => {
       });
     }
 
-    const newCategory = await CategoryModel.create({
-      body,
-    });
+    await CategoryModel.create({ body });
 
     return res.status(201).json({
       code: 1010,
       message: "Create category successfully.",
-      data: newCategory,
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });

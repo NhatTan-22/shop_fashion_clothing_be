@@ -31,6 +31,7 @@ export enum MESSAGE_SUPPLIER_ENUM {
   WARNING_SUPPLIER_CODE = "Supplier already exists.",
   // ERROR
   // ERROR_SUPPLIER = "Email/Password does not exist.",
+  ERROR_SUPPLIER = "Unknown error.",
 }
 
 export enum MESSAGE_CATEGORY_ENUM {
@@ -40,7 +41,7 @@ export enum MESSAGE_CATEGORY_ENUM {
   // WARNING
   WARNING_CATEGORY_CODE = "Category already exists.",
   // ERROR
-  // ERROR_CATEGORY = "Email/Password does not exist.",
+  ERROR_CATEGORY = "Unknown error.",
 }
 
 export enum MESSAGE_PRODUCT_ENUM {
@@ -48,7 +49,19 @@ export enum MESSAGE_PRODUCT_ENUM {
   SUCCESS_CREATE_PRODUCT = "Create product successfully.",
   SUCCESS_GET_PRODUCT = "GET list product.",
   // WARNING
-  WARNING_PRODUCT_CODE = "Product already exists.",
+  // WARNING_PRODUCT_CODE = "Product already exists.",
   // ERROR
   // ERROR_PRODUCT = "Email/Password does not exist.",
+  ERROR_PRODUCT = "Unknown error.",
+}
+
+export enum MESSAGE_BRAND_ENUM {
+  // SUCCESS
+  SUCCESS_GET_BRAND = "GET list brand.",
+  SUCCESS_CREATE_BRAND = "Create brand successfully.",
+  SUCCESS_SELECT_BRAND = "Create select successfully.",
+  // WARNING
+  WARNING_BRAND_CREATE = "Brand already exists.",
+  // ERROR
+  ERROR_BRAND = "Unknown error.",
 }

@@ -3,6 +3,7 @@
 import { ISupplier } from "~/utils/interfaces/supplier";
 import SupplierModel from "../models/SuppliersModel";
 import { MESSAGE_SUPPLIER_ENUM } from "~/utils/constants/enum";
+import { generateTransactionId } from "~/utils/constants/helper";
 
 // [GET] /select
 const searchSuppliers = async (req: any, res: any) => {
@@ -12,17 +13,9 @@ const searchSuppliers = async (req: any, res: any) => {
 
     const supplierData = await SupplierModel.find(query).limit(5);
 
-    if (!supplierData.length) {
-      return res.status(404).json({
-        code: 1014,
-        message: "Not found category.",
-        data: [],
-      });
-    }
-
     const dataSearch = supplierData.map((supplier) => ({
-      value: supplier.sku,
-      label: `${supplier.sku} - ${supplier.name}`,
+      value: supplier._id,
+      label: `${supplier.sku} - ${supplier.supplierName}`,
     }));
 
     return res.status(200).json({
@@ -74,26 +67,12 @@ const addSupplier = async (req: any, res: any) => {
   try {
     const body: ISupplier = req.body;
 
-    const isSupplierCode = await SupplierModel.find({
-      sku: body.sku,
-    });
-
-    if (!isSupplierCode) {
-      return res.status(404).json({
-        code: 1011,
-        message: MESSAGE_SUPPLIER_ENUM.WARNING_SUPPLIER_CODE,
-      });
-    }
-
-    if (typeof body.restockStatus === "string") {
-      body.restockStatus = JSON.parse(body.restockStatus);
-    }
+    const productSku = generateTransactionId("SUP");
 
     const newSupplier = await SupplierModel.create({
       ...body,
-      sku: body.sku.toUpperCase(),
-      isTaking: [0],
-      supplierImage: req.file.path,
+      sku: productSku,
+      image: req.file.path,
     });
 
     return res.status(201).json({
