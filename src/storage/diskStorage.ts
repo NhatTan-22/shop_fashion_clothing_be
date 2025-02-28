@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const uploadImage = upload.single("supplierImage");
+const uploadImage = upload.single("image");
 
 const uploadMultipleImages = upload.array("images", 5);
 

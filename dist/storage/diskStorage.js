@@ -15,7 +15,7 @@ const storage = multer_1.default.diskStorage({
     },
 });
 const upload = (0, multer_1.default)({ storage: storage });
-const uploadImage = upload.single("supplierImage");
+const uploadImage = upload.single("image");
 exports.uploadImage = uploadImage;
 const uploadMultipleImages = upload.array("images", 5);
 exports.uploadMultipleImages = uploadMultipleImages;

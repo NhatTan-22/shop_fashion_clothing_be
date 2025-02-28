@@ -44,11 +44,15 @@ exports.searchSuppliers = searchSuppliers;
 const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { currentPage, limitPage } = req.query;
-        const skip = (currentPage - 1) * limitPage;
         const supplierLength = yield SuppliersModel_1.default.countDocuments();
+        const skip = (currentPage - 1) * limitPage;
         const supplierData = yield SuppliersModel_1.default.find({})
             .skip(skip)
-            .limit(limitPage);
+            .limit(limitPage)
+            .populate({
+            path: "categories",
+            select: "name",
+        });
         return res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_GET_SUPPLIER,
@@ -62,7 +66,7 @@ const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (error) {
-        return res.status(404).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -73,16 +77,21 @@ exports.getSuppliers = getSuppliers;
 const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        const productSku = (0, helper_1.generateTransactionId)("SUP");
-        const newSupplier = yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { sku: productSku, image: req.file.path }));
+        const supplierSku = (0, helper_1.generateTransactionId)("SUP");
+        if (body.importPrice && body.importPrice < 999999) {
+            body.importPrice *= 1000;
+        }
+        if (typeof req.body.categories === "string") {
+            req.body.categories = JSON.parse(req.body.categories);
+        }
+        yield SuppliersModel_1.default.create(Object.assign(Object.assign({}, body), { sku: supplierSku, image: req.file.path }));
         return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
-            data: newSupplier,
         });
     }
     catch (error) {
-        return res.status(404).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });

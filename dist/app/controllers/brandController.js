@@ -72,13 +72,14 @@ const addBrand = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const isBrand = yield BrandsModel_1.default.find({
             name: body.name,
         });
-        if (isBrand) {
+        if (!isBrand) {
             return res.status(400).json({
                 code: 1011,
                 message: enum_1.MESSAGE_BRAND_ENUM.WARNING_BRAND_CREATE,
             });
         }
-        yield BrandsModel_1.default.create({ body });
+        req.body.suppliers = JSON.parse(req.body.suppliers);
+        yield BrandsModel_1.default.create(Object.assign(Object.assign({}, body), { image: req.file.path }));
         res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_BRAND_ENUM.SUCCESS_SELECT_BRAND,

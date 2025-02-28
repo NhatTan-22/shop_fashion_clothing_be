@@ -25,8 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const ShippingSchema = new mongoose_1.Schema({
-    orderId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Orders", required: true },
-    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Orders", required: true },
+    orderId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Order", required: true },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Order", required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
@@ -39,6 +39,6 @@ const ShippingSchema = new mongoose_1.Schema({
     },
     estimatedDelivery: { type: Date, required: true },
 }, { timestamps: true });
-const ShippingModel = mongoose_1.default.model("Shippings", ShippingSchema);
+const ShippingModel = mongoose_1.default.model("Shipping", ShippingSchema);
 exports.default = ShippingModel;
 //# sourceMappingURL=ShippingsModel.js.map

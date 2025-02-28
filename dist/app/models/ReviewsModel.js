@@ -25,13 +25,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const ReviewSchema = new mongoose_1.Schema({
-    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Users" },
-    productId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Products" },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" },
+    productId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Product" },
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
 }, {
     timestamps: true,
 });
-const ReviewModel = mongoose_1.default.model("Reviews", ReviewSchema);
+const ReviewModel = mongoose_1.default.model("Review", ReviewSchema);
 exports.default = ReviewModel;
 //# sourceMappingURL=ReviewsModel.js.map

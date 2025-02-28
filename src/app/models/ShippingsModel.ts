@@ -3,8 +3,8 @@ import { IShipping } from "~/utils/interfaces/shipping";
 
 const ShippingSchema: Schema<IShipping> = new Schema(
   {
-    orderId: { type: Schema.Types.ObjectId, ref: "Orders", required: true },
-    userId: { type: Schema.Types.ObjectId, ref: "Orders", required: true },
+    orderId: { type: Schema.Types.ObjectId, ref: "Order", required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "Order", required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
@@ -21,7 +21,7 @@ const ShippingSchema: Schema<IShipping> = new Schema(
 );
 
 const ShippingModel: Model<IShipping> = mongoose.model<IShipping>(
-  "Shippings",
+  "Shipping",
   ShippingSchema
 );
 

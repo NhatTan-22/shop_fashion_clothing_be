@@ -44,6 +44,6 @@ const CouponSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-const CouponModel = mongoose_1.default.model("Coupons", CouponSchema);
+const CouponModel = mongoose_1.default.model("Coupon", CouponSchema);
 exports.default = CouponModel;
 //# sourceMappingURL=CouponsModel.js.map

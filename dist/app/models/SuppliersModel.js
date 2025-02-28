@@ -36,9 +36,11 @@ const SupplierSchema = new mongoose_1.Schema({
     phone: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     address: { type: String, required: true },
-    categories: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Categories" }],
+    categories: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Category" }],
     orderQuantity: { type: Number, required: true, default: 0, min: 0 },
+    importPrice: { type: Number, required: true, default: 0, min: 0 },
     expectedArrivalDate: { type: Date, required: true },
+    lastRestockDate: { type: Date, required: true },
     restockStatus: {
         type: String,
         default: "PENDING",
@@ -48,7 +50,7 @@ const SupplierSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-(0, slugMiddleware_1.generateSlug)(SupplierSchema);
-const SupplierModel = mongoose_1.default.model("Suppliers", SupplierSchema);
+(0, slugMiddleware_1.generateSlug)(SupplierSchema, "supplierName");
+const SupplierModel = mongoose_1.default.model("Supplier", SupplierSchema);
 exports.default = SupplierModel;
 //# sourceMappingURL=SuppliersModel.js.map

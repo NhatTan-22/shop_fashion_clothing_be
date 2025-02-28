@@ -6,18 +6,17 @@ import {
 } from "~/app/controllers/categoryController";
 import authorization from "~/middleware/authorization";
 import verifyToken from "~/middleware/verifyToken";
+import { uploadImage } from "~/storage/diskStorage";
 
 const router = Router();
+
+router.get("/", getCategories);
 
 router.use(verifyToken);
 
 router.use(authorization([0]));
 router.get("/select", searchCategories);
-router.get("/", getCategories);
 
-router.post("/add-new", addCategory);
-
-router.use(authorization([0, 1]));
-router.get("/", getCategories);
+router.post("/add-new", uploadImage, addCategory);
 
 export default router;
