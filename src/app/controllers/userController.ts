@@ -30,7 +30,7 @@ const register = async (req: any, res: any) => {
       message: MESSAGE_ENUM.SUCCESS_REGISTER,
     });
   } catch (error) {
-    res.status(404).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -92,7 +92,7 @@ const login = async (req: any, res: any) => {
       },
     });
   } catch (error) {
-    res.status(404).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });

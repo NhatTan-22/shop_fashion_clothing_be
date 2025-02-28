@@ -37,12 +37,12 @@ const ProductSchema = new mongoose_1.Schema({
     },
     category: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "Categories",
+        ref: "Category",
         required: true,
     },
     stock: { type: Number, required: true },
-    // brand: { type: Schema.Types.ObjectId, ref: "Brands" },
-    supplier: { type: mongoose_1.Schema.Types.ObjectId, ref: "Suppliers" },
+    brand: { type: mongoose_1.Schema.Types.ObjectId, ref: "Brand" },
+    supplier: { type: mongoose_1.Schema.Types.ObjectId, ref: "Supplier" },
     sizes: { type: [String], required: true },
     colors: { type: [String], required: true },
     ratings: { type: Number, min: 0, max: 5, default: 5 },
@@ -64,6 +64,6 @@ const ProductSchema = new mongoose_1.Schema({
     slug: { type: String, unique: true, lowercase: true },
 }, { timestamps: true });
 (0, slugMiddleware_1.generateSlug)(ProductSchema);
-const ProductModel = mongoose_1.default.model("Products", ProductSchema);
+const ProductModel = mongoose_1.default.model("Product", ProductSchema);
 exports.default = ProductModel;
 //# sourceMappingURL=ProductsModel.js.map

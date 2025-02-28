@@ -26,7 +26,7 @@ const CouponSchema: Schema<ICoupon> = new Schema(
 );
 
 const CouponModel: Model<ICoupon> = mongoose.model<ICoupon>(
-  "Coupons",
+  "Coupon",
   CouponSchema
 );
 

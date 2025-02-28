@@ -1,5 +1,6 @@
 import { MESSAGE_CATEGORY_ENUM } from "~/utils/constants/enum";
 import CategoryModel from "../models/CategoriesModel";
+import { ICategory } from "~/utils/interfaces/category";
 
 // [GET] /categories
 const getCategories = async (req: any, res: any) => {
@@ -7,9 +8,9 @@ const getCategories = async (req: any, res: any) => {
     const { currentPage, limitPage } = req.query;
 
     const skip = (currentPage - 1) * limitPage;
-    const supplierLength = await CategoryModel.countDocuments();
+    const categoryLength = await CategoryModel.countDocuments();
 
-    const supplierData = await CategoryModel.find({})
+    const categoryData = await CategoryModel.find({})
       .skip(skip)
       .limit(limitPage);
 
@@ -17,9 +18,9 @@ const getCategories = async (req: any, res: any) => {
       code: 1010,
       message: MESSAGE_CATEGORY_ENUM.SUCCESS_GET_CATEGORY,
       data: {
-        data: supplierData,
+        data: categoryData,
         pagination: {
-          lengthPage: supplierLength,
+          lengthPage: categoryLength,
           currentPage: Number(currentPage),
         },
       },
@@ -61,23 +62,27 @@ const searchCategories = async (req: any, res: any) => {
 // [POST] /category/new-add
 const addCategory = async (req: any, res: any) => {
   try {
-    const body = req.body;
+    const body: ICategory = req.body;
     const isCategory = await CategoryModel.find({
-      label: body.label,
+      name: body.name,
     });
 
-    if (isCategory) {
+
+    if (!isCategory) {
       return res.status(400).json({
         code: 1011,
-        message: "Category already exists.",
+        message: MESSAGE_CATEGORY_ENUM.WARNING_CATEGORY_CODE,
       });
     }
 
-    await CategoryModel.create({ body });
+    await CategoryModel.create({
+      ...body,
+      image: req.file.path,
+    });
 
     return res.status(201).json({
       code: 1010,
-      message: "Create category successfully.",
+      message: MESSAGE_CATEGORY_ENUM.SUCCESS_CREATE_CATEGORY,
     });
   } catch (error) {
     return res.status(500).json({

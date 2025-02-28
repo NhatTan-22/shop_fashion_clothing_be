@@ -3,8 +3,8 @@ import { IPayment } from "~/utils/interfaces/payment";
 
 const PaymentSchema: Schema<IPayment> = new Schema(
   {
-    orderId: { type: Schema.Types.ObjectId, ref: "Orders", required: true },
-    userId: { type: Schema.Types.ObjectId, ref: "Users", required: true },
+    orderId: { type: Schema.Types.ObjectId, ref: "Order", required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     paymentMethod: {
       type: String,
       enum: ["CREDIT_CARD", "PAYPAL", "COD"],
@@ -22,7 +22,7 @@ const PaymentSchema: Schema<IPayment> = new Schema(
 );
 
 const PaymentModel: Model<IPayment> = mongoose.model<IPayment>(
-  "Payments",
+  "Payment",
   PaymentSchema
 );
 

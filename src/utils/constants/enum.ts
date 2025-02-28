@@ -65,3 +65,14 @@ export enum MESSAGE_BRAND_ENUM {
   // ERROR
   ERROR_BRAND = "Unknown error.",
 }
+
+export enum MESSAGE_ORDER_ENUM {
+  // SUCCESS
+  SUCCESS_GET_ORDER = "GET list order.",
+  SUCCESS_CREATE_ORDER = "Create order successfully.",
+  SUCCESS_SELECT_ORDER = "Create select successfully.",
+  // WARNING
+  WARNING_ORDER_CREATE = "order already exists.",
+  // ERROR
+  ERROR_ORDER = "Unknown error.",
+}

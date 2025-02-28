@@ -25,8 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const PaymentSchema = new mongoose_1.Schema({
-    orderId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Orders", required: true },
-    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Users", required: true },
+    orderId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Order", required: true },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
     paymentMethod: {
         type: String,
         enum: ["CREDIT_CARD", "PAYPAL", "COD"],
@@ -40,6 +40,6 @@ const PaymentSchema = new mongoose_1.Schema({
         default: "PENDING",
     },
 }, { timestamps: true });
-const PaymentModel = mongoose_1.default.model("Payments", PaymentSchema);
+const PaymentModel = mongoose_1.default.model("Payment", PaymentSchema);
 exports.default = PaymentModel;
 //# sourceMappingURL=PaymentsModel.js.map

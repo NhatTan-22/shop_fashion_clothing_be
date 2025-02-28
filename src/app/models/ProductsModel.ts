@@ -15,12 +15,12 @@ const ProductSchema: Schema<IProduct> = new Schema(
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Categories",
+      ref: "Category",
       required: true,
     },
     stock: { type: Number, required: true },
-    // brand: { type: Schema.Types.ObjectId, ref: "Brands" },
-    supplier: { type: Schema.Types.ObjectId, ref: "Suppliers" },
+    brand: { type: Schema.Types.ObjectId, ref: "Brand" },
+    supplier: { type: Schema.Types.ObjectId, ref: "Supplier" },
     sizes: { type: [String], required: true },
     colors: { type: [String], required: true },
     ratings: { type: Number, min: 0, max: 5, default: 5 },
@@ -47,7 +47,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
 generateSlug(ProductSchema);
 
 const ProductModel: Model<IProduct> = mongoose.model<IProduct>(
-  "Products",
+  "Product",
   ProductSchema
 );
 

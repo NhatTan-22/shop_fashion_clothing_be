@@ -35,13 +35,17 @@ const searchSuppliers = async (req: any, res: any) => {
 const getSuppliers = async (req: any, res: any) => {
   try {
     const { currentPage, limitPage } = req.query;
+    const supplierLength = await SupplierModel.countDocuments();
 
     const skip = (currentPage - 1) * limitPage;
-    const supplierLength = await SupplierModel.countDocuments();
 
     const supplierData = await SupplierModel.find({})
       .skip(skip)
-      .limit(limitPage);
+      .limit(limitPage)
+      .populate({
+        path: "categories",
+        select: "name",
+      });
 
     return res.status(200).json({
       code: 1010,
@@ -55,7 +59,7 @@ const getSuppliers = async (req: any, res: any) => {
       },
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -67,21 +71,28 @@ const addSupplier = async (req: any, res: any) => {
   try {
     const body: ISupplier = req.body;
 
-    const productSku = generateTransactionId("SUP");
+    const supplierSku = generateTransactionId("SUP");
 
-    const newSupplier = await SupplierModel.create({
+    if (body.importPrice && body.importPrice < 999999) {
+      body.importPrice *= 1000;
+    }
+
+    if (typeof req.body.categories === "string") {
+      req.body.categories = JSON.parse(req.body.categories);
+    }
+
+    await SupplierModel.create({
       ...body,
-      sku: productSku,
+      sku: supplierSku,
       image: req.file.path,
     });
 
     return res.status(201).json({
       code: 1010,
       message: MESSAGE_SUPPLIER_ENUM.SUCCESS_CREATE_SUPPLIER,
-      data: newSupplier,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });

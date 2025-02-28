@@ -25,20 +25,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const OrderSchema = new mongoose_1.Schema({
-    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Users" },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" },
     products: [
         {
             productId: {
                 type: mongoose_1.Schema.Types.ObjectId,
-                ref: "Products",
+                ref: "Product",
                 required: true,
             },
+            color: { type: String, required: true },
+            size: { type: String, required: true },
             quantity: { type: Number, required: true, min: 1 },
             price: { type: Number, required: true },
         },
     ],
     totalPrice: { type: Number, required: true },
-    discount: { type: mongoose_1.Schema.Types.ObjectId, ref: "Coupons" },
+    discount: { type: mongoose_1.Schema.Types.ObjectId, ref: "Coupon" },
     status: {
         type: String,
         enum: ["PENDING", "SHIPPED", "DELIVERED", "CANCELED"],
@@ -49,10 +51,10 @@ const OrderSchema = new mongoose_1.Schema({
         enum: ["PAID", "UNPAID"],
         default: "UNPAID",
     },
-    shippingId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Shippings" },
+    shippingId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Shipping" },
 }, {
     timestamps: true,
 });
-const OrderModel = mongoose_1.default.model("Orders", OrderSchema);
+const OrderModel = mongoose_1.default.model("Order", OrderSchema);
 exports.default = OrderModel;
 //# sourceMappingURL=OrdersModel.js.map

@@ -65,14 +65,19 @@ const addBrand = async (req: any, res: any) => {
       name: body.name,
     });
 
-    if (isBrand) {
+    if (!isBrand) {
       return res.status(400).json({
         code: 1011,
         message: MESSAGE_BRAND_ENUM.WARNING_BRAND_CREATE,
       });
     }
 
-    await BrandModel.create({ body });
+    req.body.suppliers = JSON.parse(req.body.suppliers);
+
+    await BrandModel.create({
+      ...body,
+      image: req.file.path,
+    });
 
     res.status(200).json({
       code: 1010,

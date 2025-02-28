@@ -27,15 +27,16 @@ const mongoose_1 = __importStar(require("mongoose"));
 const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const BrandSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    logo: { type: String, required: true },
+    image: { type: String, required: true },
     slug: { type: String, unique: true, lowercase: true },
     description: { type: String, required: true },
     country: { type: String, required: true },
     website: { type: String, default: "" },
+    suppliers: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Supplier" }],
 }, {
     timestamps: true,
 });
 (0, slugMiddleware_1.generateSlug)(BrandSchema);
-const BrandModel = mongoose_1.default.model("Brands", BrandSchema);
+const BrandModel = mongoose_1.default.model("Brand", BrandSchema);
 exports.default = BrandModel;
 //# sourceMappingURL=BrandsModel.js.map
