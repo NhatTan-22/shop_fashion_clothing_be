@@ -3,8 +3,8 @@ import { IReview } from "~/utils/interfaces/review";
 
 const ReviewSchema: Schema<IReview> = new Schema(
   {
-    userId: { type: Schema.Types.ObjectId, ref: "Users" },
-    productId: { type: Schema.Types.ObjectId, ref: "Products" },
+    userId: { type: Schema.Types.ObjectId, ref: "User" },
+    productId: { type: Schema.Types.ObjectId, ref: "Product" },
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
   },
@@ -14,7 +14,7 @@ const ReviewSchema: Schema<IReview> = new Schema(
 );
 
 const ReviewModel: Model<IReview> = mongoose.model<IReview>(
-  "Reviews",
+  "Review",
   ReviewSchema
 );
 

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MESSAGE_BRAND_ENUM = exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
+exports.MESSAGE_ORDER_ENUM = exports.MESSAGE_BRAND_ENUM = exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
 var ROLE_ENUM;
 (function (ROLE_ENUM) {
     ROLE_ENUM[ROLE_ENUM["ADMIN"] = 0] = "ADMIN";
@@ -67,4 +67,15 @@ var MESSAGE_BRAND_ENUM;
     // ERROR
     MESSAGE_BRAND_ENUM["ERROR_BRAND"] = "Unknown error.";
 })(MESSAGE_BRAND_ENUM || (exports.MESSAGE_BRAND_ENUM = MESSAGE_BRAND_ENUM = {}));
+var MESSAGE_ORDER_ENUM;
+(function (MESSAGE_ORDER_ENUM) {
+    // SUCCESS
+    MESSAGE_ORDER_ENUM["SUCCESS_GET_ORDER"] = "GET list order.";
+    MESSAGE_ORDER_ENUM["SUCCESS_CREATE_ORDER"] = "Create order successfully.";
+    MESSAGE_ORDER_ENUM["SUCCESS_SELECT_ORDER"] = "Create select successfully.";
+    // WARNING
+    MESSAGE_ORDER_ENUM["WARNING_ORDER_CREATE"] = "order already exists.";
+    // ERROR
+    MESSAGE_ORDER_ENUM["ERROR_ORDER"] = "Unknown error.";
+})(MESSAGE_ORDER_ENUM || (exports.MESSAGE_ORDER_ENUM = MESSAGE_ORDER_ENUM = {}));
 //# sourceMappingURL=enum.js.map

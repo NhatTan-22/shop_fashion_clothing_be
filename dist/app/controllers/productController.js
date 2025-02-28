@@ -50,7 +50,7 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -77,7 +77,7 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });
@@ -101,7 +101,7 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             code: 1013,
             message: error.message,
         });

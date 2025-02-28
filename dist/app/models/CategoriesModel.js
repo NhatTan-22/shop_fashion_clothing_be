@@ -26,12 +26,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const CategoryScheme = new mongoose_1.Schema({
-    logo: { type: String },
-    slug: { type: String, unique: true, lowercase: true },
+    image: { type: String },
     name: { type: String, required: true },
+    slug: { type: String, unique: true, lowercase: true },
     description: { type: String },
 }, { timestamps: true });
 (0, slugMiddleware_1.generateSlug)(CategoryScheme);
-const CategoryModel = mongoose_1.default.models.Category || mongoose_1.default.model("Categories", CategoryScheme);
+const CategoryModel = mongoose_1.default.model("Category", CategoryScheme);
 exports.default = CategoryModel;
 //# sourceMappingURL=CategoriesModel.js.map

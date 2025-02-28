@@ -15,9 +15,11 @@ const SupplierSchema: Schema<ISupplier> = new Schema(
     phone: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     address: { type: String, required: true },
-    categories: [{ type: Schema.Types.ObjectId, ref: "Categories" }],
+    categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     orderQuantity: { type: Number, required: true, default: 0, min: 0 },
+    importPrice: { type: Number, required: true, default: 0, min: 0 },
     expectedArrivalDate: { type: Date, required: true },
+    lastRestockDate: { type: Date, required: true },
     restockStatus: {
       type: String,
       default: "PENDING",
@@ -30,10 +32,10 @@ const SupplierSchema: Schema<ISupplier> = new Schema(
   }
 );
 
-generateSlug(SupplierSchema);
+generateSlug(SupplierSchema, "supplierName");
 
 const SupplierModel: Model<ISupplier> = mongoose.model<ISupplier>(
-  "Suppliers",
+  "Supplier",
   SupplierSchema
 );
 

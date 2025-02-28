@@ -39,7 +39,7 @@ const getProducts = async (req: any, res: any) => {
       message: MESSAGE_PRODUCT_ENUM.SUCCESS_GET_PRODUCT,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -83,7 +83,7 @@ const addProduct = async (req: any, res: any) => {
       data: newProduct,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });
@@ -109,7 +109,7 @@ const deleteProduct = async (req: any, res: any) => {
       data: [],
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       code: 1013,
       message: error.message,
     });

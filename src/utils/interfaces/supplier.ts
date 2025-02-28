@@ -2,17 +2,18 @@ import { Document, ObjectId } from "mongoose";
 
 export interface ISupplier extends Document {
   _id: ObjectId;
-  sku: string;
-  slug: string;
+  sku: object;
+  slug: object;
   supplierName: string;
   contactPerson: string;
-  image: string;
+  image: object;
   email: string;
   phone: string;
   address: string;
-  categories: [ObjectId];
+  categories: string[];
   orderQuantity: number;
   restockStatus: string; // "pending" | "shipped" | "received"
+  importPrice: number;
   expectedArrivalDate: Date;
   lastRestockDate?: Date;
   createdAt?: Date;

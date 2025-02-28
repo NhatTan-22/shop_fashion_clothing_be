@@ -20,17 +20,17 @@ const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const { currentPage, limitPage } = req.query;
         const skip = (currentPage - 1) * limitPage;
-        const supplierLength = yield CategoriesModel_1.default.countDocuments();
-        const supplierData = yield CategoriesModel_1.default.find({})
+        const categoryLength = yield CategoriesModel_1.default.countDocuments();
+        const categoryData = yield CategoriesModel_1.default.find({})
             .skip(skip)
             .limit(limitPage);
         return res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_CATEGORY_ENUM.SUCCESS_GET_CATEGORY,
             data: {
-                data: supplierData,
+                data: categoryData,
                 pagination: {
-                    lengthPage: supplierLength,
+                    lengthPage: categoryLength,
                     currentPage: Number(currentPage),
                 },
             },
@@ -73,18 +73,18 @@ const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const body = req.body;
         const isCategory = yield CategoriesModel_1.default.find({
-            label: body.label,
+            name: body.name,
         });
-        if (isCategory) {
+        if (!isCategory) {
             return res.status(400).json({
                 code: 1011,
-                message: "Category already exists.",
+                message: enum_1.MESSAGE_CATEGORY_ENUM.WARNING_CATEGORY_CODE,
             });
         }
-        yield CategoriesModel_1.default.create({ body });
+        yield CategoriesModel_1.default.create(Object.assign(Object.assign({}, body), { image: req.file.path }));
         return res.status(201).json({
             code: 1010,
-            message: "Create category successfully.",
+            message: enum_1.MESSAGE_CATEGORY_ENUM.SUCCESS_CREATE_CATEGORY,
         });
     }
     catch (error) {
