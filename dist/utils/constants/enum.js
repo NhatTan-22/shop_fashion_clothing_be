@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MESSAGE_ORDER_ENUM = exports.MESSAGE_BRAND_ENUM = exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
+exports.MESSAGE_REVIEW_ENUM = exports.MESSAGE_ORDER_ENUM = exports.MESSAGE_BRAND_ENUM = exports.MESSAGE_PRODUCT_ENUM = exports.MESSAGE_CATEGORY_ENUM = exports.MESSAGE_SUPPLIER_ENUM = exports.MESSAGE_ENUM = exports.ROLE_ENUM = void 0;
 var ROLE_ENUM;
 (function (ROLE_ENUM) {
     ROLE_ENUM[ROLE_ENUM["ADMIN"] = 0] = "ADMIN";
@@ -51,9 +51,9 @@ var MESSAGE_PRODUCT_ENUM;
     MESSAGE_PRODUCT_ENUM["SUCCESS_CREATE_PRODUCT"] = "Create product successfully.";
     MESSAGE_PRODUCT_ENUM["SUCCESS_GET_PRODUCT"] = "GET list product.";
     // WARNING
-    // WARNING_PRODUCT_CODE = "Product already exists.",
+    MESSAGE_PRODUCT_ENUM["WARNING_PRODUCT_CODE"] = "Product already exists.";
+    // WARNING_PRODUCT_DETAIL = "Email/Password does not exist.",
     // ERROR
-    // ERROR_PRODUCT = "Email/Password does not exist.",
     MESSAGE_PRODUCT_ENUM["ERROR_PRODUCT"] = "Unknown error.";
 })(MESSAGE_PRODUCT_ENUM || (exports.MESSAGE_PRODUCT_ENUM = MESSAGE_PRODUCT_ENUM = {}));
 var MESSAGE_BRAND_ENUM;
@@ -78,4 +78,15 @@ var MESSAGE_ORDER_ENUM;
     // ERROR
     MESSAGE_ORDER_ENUM["ERROR_ORDER"] = "Unknown error.";
 })(MESSAGE_ORDER_ENUM || (exports.MESSAGE_ORDER_ENUM = MESSAGE_ORDER_ENUM = {}));
+var MESSAGE_REVIEW_ENUM;
+(function (MESSAGE_REVIEW_ENUM) {
+    // SUCCESS
+    MESSAGE_REVIEW_ENUM["SUCCESS_GET_REVIEW"] = "GET list review.";
+    MESSAGE_REVIEW_ENUM["SUCCESS_CREATE_REVIEW"] = "Create review successfully.";
+    // SUCCESS_SELECT_REVIEW = "Create select successfully.",
+    // WARNING
+    // WARNING_REVIEW_CREATE = "review already exists.",
+    // ERROR
+    MESSAGE_REVIEW_ENUM["ERROR_REVIEW"] = "Unknown error.";
+})(MESSAGE_REVIEW_ENUM || (exports.MESSAGE_REVIEW_ENUM = MESSAGE_REVIEW_ENUM = {}));
 //# sourceMappingURL=enum.js.map

@@ -45,7 +45,8 @@ const getSuppliers = async (req: any, res: any) => {
       .populate({
         path: "categories",
         select: "name",
-      });
+      })
+      .lean();
 
     return res.status(200).json({
       code: 1010,
@@ -99,12 +100,14 @@ const addSupplier = async (req: any, res: any) => {
   }
 };
 
-// [DELETE] /:_id/delete
+// [DELETE] /:_id
 const deleteSupplier = async (req: any, res: any) => {
   try {
     const { _id: idSupplier } = req.params;
 
-    if (idSupplier) {
+    const isSupplier = await SupplierModel.findOne({ _id: idSupplier });
+
+    if (isSupplier) {
       await SupplierModel.deleteOne({ _id: idSupplier });
 
       return res.status(200).json({
@@ -113,7 +116,7 @@ const deleteSupplier = async (req: any, res: any) => {
       });
     }
   } catch (error) {
-    return res.status(404).json({
+    return res.status(505).json({
       code: 1013,
       message: error.message,
     });

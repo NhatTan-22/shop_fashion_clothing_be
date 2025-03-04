@@ -7,17 +7,16 @@ import {
 import authorization from "~/middleware/authorization";
 import verifyToken from "~/middleware/verifyToken";
 import { uploadImage } from "~/storage/diskStorage";
+import { ROLE_ENUM } from "~/utils/constants/enum";
 
 const router = Router();
 
 router.use(verifyToken);
 
-router.use(authorization([0]));
-router.get("/select", selectBrand);
+router.get("/select", authorization([ROLE_ENUM.ADMIN]), selectBrand);
 
-router.post("/add-new", uploadImage, addBrand);
+router.post("/add-new", authorization([ROLE_ENUM.ADMIN]), uploadImage, addBrand);
 
-router.use(authorization([0, 1]));
-router.get("/", getBrand);
+router.get("/", authorization([ROLE_ENUM.ADMIN, ROLE_ENUM.USER]), getBrand);
 
 export default router;

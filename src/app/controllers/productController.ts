@@ -1,7 +1,6 @@
 import { MESSAGE_PRODUCT_ENUM } from "~/utils/constants/enum";
 import ProductModel from "../models/ProductsModel";
 import { IProduct } from "~/utils/interfaces/product";
-import { generateTransactionId } from "~/utils/constants/helper";
 
 // [GET] /products
 const getProducts = async (req: any, res: any) => {
@@ -24,7 +23,6 @@ const getProducts = async (req: any, res: any) => {
       });
     // .populate({
     //   path: "brand",
-    //   select: "name",
     // });
 
     res.status(200).json({
@@ -41,6 +39,49 @@ const getProducts = async (req: any, res: any) => {
   } catch (error) {
     return res.status(500).json({
       code: 1013,
+      message: error.message || "Lỗi server, vui lòng thử lại sau!",
+    });
+  }
+};
+
+// [GET] /products/detail/:slug
+const getDetailProduct = async (req: any, res: any) => {
+  try {
+    const { slug } = req.params;
+
+    if (!slug) {
+      return res.status(400).json({
+        code: 1011,
+        message: `Not found product id: ${slug}.`,
+      });
+    }
+
+    const productData = await ProductModel.findOne({ slug: slug })
+      .populate("category")
+      .populate({
+        path: "supplier",
+        select: "supplierName",
+      });
+    // .populate({
+    //   path: "brand",
+    // });
+
+    const relatedProducts = await ProductModel.find({
+      category: productData.category,
+      _id: { $ne: productData._id },
+    }).limit(4);
+
+    res.status(200).json({
+      code: 1010,
+      data: {
+        data: productData,
+        relate: relatedProducts,
+      },
+      message: MESSAGE_PRODUCT_ENUM.SUCCESS_GET_PRODUCT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      code: 1013,
       message: error.message,
     });
   }
@@ -50,6 +91,15 @@ const getProducts = async (req: any, res: any) => {
 const addProduct = async (req: any, res: any) => {
   try {
     const body: IProduct = req.body;
+
+    const isProduct = await ProductModel.findOne({ slug: body.slug });
+
+    if (isProduct) {
+      return res.status(400).json({
+        code: 1011,
+        message: MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
+      });
+    }
 
     const parsedBody = {
       ...body,
@@ -69,18 +119,14 @@ const addProduct = async (req: any, res: any) => {
       images = req.files.map((file: Express.Multer.File) => file.path);
     }
 
-    const productSku = generateTransactionId("PROD");
-
     const newProduct = await ProductModel.create({
       ...parsedBody,
-      sku: productSku,
       images: images,
     });
 
     return res.status(201).json({
       code: 1010,
       message: MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
-      data: newProduct,
     });
   } catch (error) {
     return res.status(500).json({
@@ -116,4 +162,4 @@ const deleteProduct = async (req: any, res: any) => {
   }
 };
 
-export { getProducts, addProduct, deleteProduct };
+export { getProducts, getDetailProduct, addProduct, deleteProduct };
