@@ -12,8 +12,8 @@ const enum_1 = require("~/utils/constants/enum");
 const router = (0, express_1.Router)();
 router.get("/", productController_1.getProducts);
 router.use(verifyToken_1.default);
-router.use((0, authorization_1.default)([enum_1.ROLE_ENUM.ADMIN]));
-router.post("/add-new", diskStorage_1.uploadMultipleImages, productController_1.addProduct);
-router.post("/delete/:slug", productController_1.addProduct);
+router.post("/add-new", (0, authorization_1.default)([enum_1.ROLE_ENUM.ADMIN]), diskStorage_1.uploadMultipleImages, productController_1.addProduct);
+router.delete("/:_id", (0, authorization_1.default)([enum_1.ROLE_ENUM.ADMIN]), productController_1.deleteProduct);
+router.get("/:slug", (0, authorization_1.default)([enum_1.ROLE_ENUM.ADMIN, enum_1.ROLE_ENUM.USER]), productController_1.getDetailProduct);
 exports.default = router;
 //# sourceMappingURL=productRouter.js.map

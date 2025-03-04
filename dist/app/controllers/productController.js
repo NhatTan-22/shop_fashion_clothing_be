@@ -12,10 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.addProduct = exports.getProducts = void 0;
+exports.deleteProduct = exports.addProduct = exports.getDetailProduct = exports.getProducts = void 0;
 const enum_1 = require("~/utils/constants/enum");
 const ProductsModel_1 = __importDefault(require("../models/ProductsModel"));
-const helper_1 = require("~/utils/constants/helper");
 // [GET] /products
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -35,7 +34,6 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         // .populate({
         //   path: "brand",
-        //   select: "name",
         // });
         res.status(200).json({
             code: 1010,
@@ -52,15 +50,62 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         return res.status(500).json({
             code: 1013,
-            message: error.message,
+            message: error.message || "Lỗi server, vui lòng thử lại sau!",
         });
     }
 });
 exports.getProducts = getProducts;
+// [GET] /products/detail/:slug
+const getDetailProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { slug } = req.params;
+        if (!slug) {
+            return res.status(400).json({
+                code: 1011,
+                message: `Not found product id: ${slug}.`,
+            });
+        }
+        const productData = yield ProductsModel_1.default.findOne({ slug: slug })
+            .populate("category")
+            .populate({
+            path: "supplier",
+            select: "supplierName",
+        });
+        // .populate({
+        //   path: "brand",
+        // });
+        const relatedProducts = yield ProductsModel_1.default.find({
+            category: productData.category,
+            _id: { $ne: productData._id },
+        }).limit(4);
+        res.status(200).json({
+            code: 1010,
+            data: {
+                data: productData,
+                relate: relatedProducts,
+            },
+            message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_GET_PRODUCT,
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            code: 1013,
+            message: error.message,
+        });
+    }
+});
+exports.getDetailProduct = getDetailProduct;
 // [POST] /products/new-add
 const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
+        const isProduct = yield ProductsModel_1.default.findOne({ slug: body.slug });
+        if (isProduct) {
+            return res.status(400).json({
+                code: 1011,
+                message: enum_1.MESSAGE_PRODUCT_ENUM.WARNING_PRODUCT_CODE,
+            });
+        }
         const parsedBody = Object.assign(Object.assign({}, body), { pricing: typeof body.pricing === "string"
                 ? JSON.parse(body.pricing)
                 : body.pricing, sizes: typeof body.sizes === "string" ? JSON.parse(body.sizes) : body.sizes, colors: typeof body.colors === "string" ? JSON.parse(body.colors) : body.colors, stock: Number(body.stock) });
@@ -68,12 +113,10 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (req.files && Array.isArray(req.files)) {
             images = req.files.map((file) => file.path);
         }
-        const productSku = (0, helper_1.generateTransactionId)("PROD");
-        const newProduct = yield ProductsModel_1.default.create(Object.assign(Object.assign({}, parsedBody), { sku: productSku, images: images }));
+        const newProduct = yield ProductsModel_1.default.create(Object.assign(Object.assign({}, parsedBody), { images: images }));
         return res.status(201).json({
             code: 1010,
             message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_CREATE_PRODUCT,
-            data: newProduct,
         });
     }
     catch (error) {

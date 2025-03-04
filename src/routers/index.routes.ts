@@ -1,9 +1,9 @@
-import authRouter from "./authRouter";
-import supplierRouter from "./supplierRouter";
-import productRouter from "./productRouter";
-import categoryRouter from "./categoryRouter";
-import brandRouter from "./brandRouter";
-import orderRouter from "./orderRouter";
+import authRouter from "./auth.routes";
+import supplierRouter from "./supplier.routes";
+import productRouter from "./product.routes";
+import categoryRouter from "./category.routes";
+import brandRouter from "./brand.routes";
+import orderRouter from "./order.routes";
 
 const appRouter = (app: any) => {
   app.use("/auth", authRouter);

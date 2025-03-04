@@ -2,7 +2,6 @@ import { Document, ObjectId } from "mongoose";
 
 export interface IProduct extends Document {
   _id: ObjectId;
-  sku: object;
   name: object;
   description: object;
   pricing: {
@@ -18,10 +17,10 @@ export interface IProduct extends Document {
   colors: [object];
   images: [object];
   ratings?: number;
-  gender?: object;
+  gender: object;
   status: object;
   availability: object;
-  slug: object;
+  slug: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

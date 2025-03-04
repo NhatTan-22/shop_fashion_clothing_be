@@ -26,7 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const slugMiddleware_1 = require("~/middleware/slugMiddleware");
 const ProductSchema = new mongoose_1.Schema({
-    sku: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     description: { type: String },
     images: [{ type: String }],
@@ -58,8 +57,8 @@ const ProductSchema = new mongoose_1.Schema({
     },
     availability: {
         type: String,
-        enum: ["IN_STOCK", "OUT_OF_STOCK"],
-        default: "IN_STOCK",
+        enum: ["IN STOCK", "OUT OF STOCK"],
+        default: "IN STOCK",
     },
     slug: { type: String, unique: true, lowercase: true },
 }, { timestamps: true });
