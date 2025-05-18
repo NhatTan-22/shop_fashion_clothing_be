@@ -12,21 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Libs
 const mongoose_1 = __importDefault(require("mongoose"));
-function ConnectMongoDB() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const MONGO_URI = process.env.MONGO_URI;
-            const connect = yield mongoose_1.default.connect(MONGO_URI);
-            if (connect) {
-                return `Connected MongoBD Successfully!`;
-            }
-        }
-        catch (error) {
-            return `Connect failed! Error: ${error}!`;
-        }
-    });
-}
-exports.default = ConnectMongoDB;
-//# sourceMappingURL=connect.js.map
+const categories_1 = require("./categories");
+const suppliers_1 = require("./suppliers");
+const brands_1 = require("./brands");
+const products_1 = require("./products");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const runSeed = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const MONGO_URI = process.env.MONGO_URI;
+        yield mongoose_1.default.connect(MONGO_URI);
+        yield (0, categories_1.seedCategories)();
+        yield (0, suppliers_1.seedSuppliers)();
+        yield (0, brands_1.seedBrands)();
+        yield (0, products_1.seedProducts)();
+        console.log('🎉 All data seeded successfully!');
+        process.exit(0);
+    }
+    catch (error) {
+        console.error('❌ Seeding failed:', error);
+        process.exit(1);
+    }
+});
+runSeed();
+//# sourceMappingURL=index.js.map

@@ -4,6 +4,7 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "ts-node -r tsconfig-paths/register src/utils/seed/index.ts",
     "start": "nodemon ./dist/main.js",
     "dev": "nodemon ./src/main.ts",
     "build": "tsc"
@@ -15,6 +16,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@faker-js/faker": "^9.8.0",
     "@types/express": "^5.0.0",
     "@types/mongoose": "^5.11.96",
     "bcrypt": "^5.1.1",
@@ -37,6 +39,7 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.9.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }

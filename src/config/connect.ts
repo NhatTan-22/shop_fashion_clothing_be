@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 
 async function ConnectMongoDB() {
     try {
-        const urlDB = process.env.URL_DATA_MONGODB ;
-        const connect = await mongoose.connect(urlDB);
+        const MONGO_URI = process.env.MONGO_URI;
+        const connect = await mongoose.connect(MONGO_URI);
         if(connect) {
             return `Connected MongoBD Successfully!`;
         }
