@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const OrderSchema = new mongoose_1.Schema({
+    sku: { type: String, required: true, unique: true },
     userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User" },
     products: [
         {

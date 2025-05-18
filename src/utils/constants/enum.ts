@@ -76,8 +76,6 @@ export enum MESSAGE_ORDER_ENUM {
   // ERROR
   ERROR_ORDER = "Unknown error.",
 }
-<<<<<<< HEAD
-=======
 
 export enum MESSAGE_REVIEW_ENUM {
   // SUCCESS
@@ -89,4 +87,3 @@ export enum MESSAGE_REVIEW_ENUM {
   // ERROR
   ERROR_REVIEW = "Unknown error.",
 }
->>>>>>> develop

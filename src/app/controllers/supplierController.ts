@@ -45,12 +45,8 @@ const getSuppliers = async (req: any, res: any) => {
       .populate({
         path: "categories",
         select: "name",
-<<<<<<< HEAD
-      });
-=======
       })
       .lean();
->>>>>>> develop
 
     return res.status(200).json({
       code: 1010,

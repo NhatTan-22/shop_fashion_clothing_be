@@ -38,8 +38,6 @@ const getProducts = async (req: any, res: any) => {
     });
   } catch (error) {
     return res.status(500).json({
-<<<<<<< HEAD
-=======
       code: 1013,
       message: error.message || "Lỗi server, vui lòng thử lại sau!",
     });
@@ -83,7 +81,6 @@ const getDetailProduct = async (req: any, res: any) => {
     });
   } catch (error) {
     return res.status(500).json({
->>>>>>> develop
       code: 1013,
       message: error.message,
     });

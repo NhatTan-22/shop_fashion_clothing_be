@@ -3,10 +3,7 @@ import { IOrder } from "~/utils/interfaces/order";
 
 const OrderSchema: Schema<IOrder> = new Schema(
   {
-<<<<<<< HEAD
-=======
     sku: { type: String, required: true, unique: true },
->>>>>>> develop
     userId: { type: Schema.Types.ObjectId, ref: "User" },
     products: [
       {

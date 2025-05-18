@@ -50,11 +50,51 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         return res.status(500).json({
             code: 1013,
-            message: error.message,
+            message: error.message || "Lỗi server, vui lòng thử lại sau!",
         });
     }
 });
 exports.getProducts = getProducts;
+// [GET] /products/detail/:slug
+const getDetailProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { slug } = req.params;
+        if (!slug) {
+            return res.status(400).json({
+                code: 1011,
+                message: `Not found product id: ${slug}.`,
+            });
+        }
+        const productData = yield ProductsModel_1.default.findOne({ slug: slug })
+            .populate("category")
+            .populate({
+            path: "supplier",
+            select: "supplierName",
+        });
+        // .populate({
+        //   path: "brand",
+        // });
+        const relatedProducts = yield ProductsModel_1.default.find({
+            category: productData.category,
+            _id: { $ne: productData._id },
+        }).limit(4);
+        res.status(200).json({
+            code: 1010,
+            data: {
+                data: productData,
+                relate: relatedProducts,
+            },
+            message: enum_1.MESSAGE_PRODUCT_ENUM.SUCCESS_GET_PRODUCT,
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            code: 1013,
+            message: error.message,
+        });
+    }
+});
+exports.getDetailProduct = getDetailProduct;
 // [POST] /products/new-add
 const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

@@ -52,7 +52,8 @@ const getSuppliers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .populate({
             path: "categories",
             select: "name",
-        });
+        })
+            .lean();
         return res.status(200).json({
             code: 1010,
             message: enum_1.MESSAGE_SUPPLIER_ENUM.SUCCESS_GET_SUPPLIER,
