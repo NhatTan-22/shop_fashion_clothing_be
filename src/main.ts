@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import ConnectMongoDB from "~/config/connect";
 import { createAdminUser } from "~/utils/constants/helper";
-import appRouter from "./routers/indexRouter";
+import appRouter from "./routers/index.routes";
 
 dotenv.config();
 const app = express();

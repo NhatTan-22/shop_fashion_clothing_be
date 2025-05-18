@@ -3,8 +3,7 @@ import { generateSlug } from "~/middleware/slugMiddleware";
 import { IProduct } from "~/utils/interfaces/product";
 
 const ProductSchema: Schema<IProduct> = new Schema(
-  {
-    sku: { type: String, required: true, unique: true },
+  { 
     name: { type: String, required: true },
     description: { type: String },
     images: [{ type: String }],
@@ -36,8 +35,8 @@ const ProductSchema: Schema<IProduct> = new Schema(
     },
     availability: {
       type: String,
-      enum: ["IN_STOCK", "OUT_OF_STOCK"],
-      default: "IN_STOCK",
+      enum: ["IN STOCK", "OUT OF STOCK"],
+      default: "IN STOCK",
     },
     slug: { type: String, unique: true, lowercase: true },
   },

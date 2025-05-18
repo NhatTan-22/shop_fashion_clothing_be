@@ -98,11 +98,12 @@ const addSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.addSupplier = addSupplier;
-// [DELETE] /:_id/delete
+// [DELETE] /:_id
 const deleteSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { _id: idSupplier } = req.params;
-        if (idSupplier) {
+        const isSupplier = yield SuppliersModel_1.default.findOne({ _id: idSupplier });
+        if (isSupplier) {
             yield SuppliersModel_1.default.deleteOne({ _id: idSupplier });
             return res.status(200).json({
                 code: 1010,
@@ -111,7 +112,7 @@ const deleteSupplier = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (error) {
-        return res.status(404).json({
+        return res.status(505).json({
             code: 1013,
             message: error.message,
         });

@@ -49,9 +49,9 @@ export enum MESSAGE_PRODUCT_ENUM {
   SUCCESS_CREATE_PRODUCT = "Create product successfully.",
   SUCCESS_GET_PRODUCT = "GET list product.",
   // WARNING
-  // WARNING_PRODUCT_CODE = "Product already exists.",
+  WARNING_PRODUCT_CODE = "Product already exists.",
+  // WARNING_PRODUCT_DETAIL = "Email/Password does not exist.",
   // ERROR
-  // ERROR_PRODUCT = "Email/Password does not exist.",
   ERROR_PRODUCT = "Unknown error.",
 }
 
@@ -76,3 +76,17 @@ export enum MESSAGE_ORDER_ENUM {
   // ERROR
   ERROR_ORDER = "Unknown error.",
 }
+<<<<<<< HEAD
+=======
+
+export enum MESSAGE_REVIEW_ENUM {
+  // SUCCESS
+  SUCCESS_GET_REVIEW = "GET list review.",
+  SUCCESS_CREATE_REVIEW = "Create review successfully.",
+  // SUCCESS_SELECT_REVIEW = "Create select successfully.",
+  // WARNING
+  // WARNING_REVIEW_CREATE = "review already exists.",
+  // ERROR
+  ERROR_REVIEW = "Unknown error.",
+}
+>>>>>>> develop

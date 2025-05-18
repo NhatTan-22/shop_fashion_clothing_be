@@ -19,7 +19,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const connect_1 = __importDefault(require("~/config/connect"));
 const helper_1 = require("~/utils/constants/helper");
-const indexRouter_1 = __importDefault(require("./routers/indexRouter"));
+const index_routes_1 = __importDefault(require("./routers/index.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -33,7 +33,7 @@ app.use("/public", express_1.default.static("public"));
 app.use(express_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
-(0, indexRouter_1.default)(app);
+(0, index_routes_1.default)(app);
 app
     .listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, connect_1.default)();

@@ -51,9 +51,9 @@ var MESSAGE_PRODUCT_ENUM;
     MESSAGE_PRODUCT_ENUM["SUCCESS_CREATE_PRODUCT"] = "Create product successfully.";
     MESSAGE_PRODUCT_ENUM["SUCCESS_GET_PRODUCT"] = "GET list product.";
     // WARNING
-    // WARNING_PRODUCT_CODE = "Product already exists.",
+    MESSAGE_PRODUCT_ENUM["WARNING_PRODUCT_CODE"] = "Product already exists.";
+    // WARNING_PRODUCT_DETAIL = "Email/Password does not exist.",
     // ERROR
-    // ERROR_PRODUCT = "Email/Password does not exist.",
     MESSAGE_PRODUCT_ENUM["ERROR_PRODUCT"] = "Unknown error.";
 })(MESSAGE_PRODUCT_ENUM || (exports.MESSAGE_PRODUCT_ENUM = MESSAGE_PRODUCT_ENUM = {}));
 var MESSAGE_BRAND_ENUM;
